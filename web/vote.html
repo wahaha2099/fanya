@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=Edge, chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="keywords" content="泛亚">
+    <meta name="description" content="泛亚">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/static/plugins/swiper/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/vote.css">
+    <title>签到</title>
+</head>
+
+<body>
+
+    <div class="head">
+        <img src="/static/imgs/head.jpg" width="100%">
+        <div class="title"><img  src="/static/imgs/gezi.jpg"/><b>普通投票</b><img src="/static/imgs/gezi.jpg" /></div>
+    </div>
+
+    <div class="content">
+        <div class = "tips">
+            <img src="/static/imgs/tips.png"><span class="tips-head">说明:</span>
+            <div class="tips-info">因为12月需要组织一次党员生活会，看看大家对党员生活会的举办形式有什么意见，投票选择，没人最多选择2项</div>
+        </div>
+
+        <div class="select">
+            <div>选项（注：每个最多选2项）</div>
+
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/static/js/vue.min.js"></script>
+    <script>
+
+        var page = new Vue({
+            el: '.swiper-wrapper',
+            data: {
+                parentMessage: 'Parent',
+                items: [
+                    { id:1,url: '/static/imgs/toupiao-bg.jpg' , label_url:'/static/imgs/type.jpg' },
+                    { id:2,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg' },
+                    { id:3,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg' }
+                ]
+            },
+            ready:function () {
+
+            },
+            methods:{
+
+            }
+        });
+
+    </script>
+</body>
+</html>

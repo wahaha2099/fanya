@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=Edge, chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="keywords" content="泛亚">
+    <meta name="description" content="泛亚">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/static/plugins/swiper/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/index.css">
+    <title>签到</title>
+</head>
+
+<body>
+
+    <div class="head">
+        <img src="/static/imgs/head.jpg" width="100%">
+        <div class="title"><img  src="/static/imgs/gezi.jpg"/><b>任务列表</b><img src="/static/imgs/gezi.jpg" /></div>
+    </div>
+
+    <div class="content">
+        <!-- Slider main container -->
+        <div class="swiper-container">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+                <!-- Slides -->
+                <template v-for="item in items">
+                    <div class="swiper-slide" >
+                        <div class="item" style="background-image: url({{item.url}})" >
+                            <img src="{{item.label_url}}">
+                            <div class="info">
+                                <div class="topic"><b>XX党支部换届选举</b></div>
+                                <div class="time">时间：2016年11月15日</div>
+                                <div class="address">地点：上海香格里拉大酒店</div>
+                            </div>
+
+                            <div class="action" v-on:click="goSign( item )"><b>去签到</b></div>
+                        </div>
+                    </div>
+                </template>
+
+            </div>
+            <!-- If we need pagination -->
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/static/plugins/swiper/js/swiper.min.js"></script>
+    <script type="text/javascript" src="/static/js/vue.min.js"></script>
+    <script>
+
+        var page = new Vue({
+            el: '.swiper-wrapper',
+            data: {
+                parentMessage: 'Parent',
+                items: [
+                    { id:1,url: '/static/imgs/toupiao-bg.jpg' , label_url:'/static/imgs/type.jpg' },
+                    { id:2,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg' },
+                    { id:3,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg' }
+                ]
+            },
+            ready:function () {
+               //this.$nextTick(function () {
+                    this.initSwiper();
+               // })
+            },
+            methods:{
+                initSwiper:function(event){ //初始化轮播图
+                    var swiper = new Swiper('.swiper-container', {
+                         loop:true,
+                        effect: 'coverflow',
+                        grabCursor: true,
+                         pagination: this.items.length <= 1 ? '' : '.swiper-pagination',
+                         paginationClickable: true,
+                         spaceBetween: 10,
+                         slidesPerView: 'auto',
+                         centeredSlides: true,
+                        coverflow: {
+                            rotate: 50,
+                            stretch: 0,
+                            depth: 100,
+                            modifier: 1,
+                            slideShadows : true
+                        }
+                     });
+                },
+                goSign:function ( item ) {
+                    console.log( item );
+                    window.location.href = "vote.html?id=" + item.id ;
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
