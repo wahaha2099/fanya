@@ -38,7 +38,7 @@
         </div>
 
         <div class="submit">
-            <div class="button"><img src="/static/imgs/click.png" width="20px">提 交</div>
+            <div class="button" @click="submit" ><img src="/static/imgs/click.png" width="20px">提 交</div>
         </div>
     </div>
 
@@ -77,6 +77,9 @@
                     console.log( this.checked );
 
                     //
+                },
+                submit:function () {
+                    console.log( ' submit '+ this.checked );
                 }
             }
         });
