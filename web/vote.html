@@ -12,7 +12,7 @@
     <title>签到</title>
 </head>
 
-<body>
+<body id="body">
 
     <div class="head">
         <img src="/static/imgs/head.jpg" width="100%">
@@ -26,8 +26,19 @@
         </div>
 
         <div class="select">
-            <div>选项（注：每个最多选2项）</div>
+            <div><b>选项</b><span>（注：每个最多选2项）</span></div>
+            <div class="items">
+                <template v-for="item in items">
+                    <div class="ul" v-bind:class="{ 'ul2' : $index % 2 != 0  }">
+                        <input type="checkbox" @click="checkItem( item  )" value="{{ item.id }}" v-model="checked" lazy>{{ item.name }}
+                    </div>
+                </template>
 
+            </div>
+        </div>
+
+        <div class="submit">
+            <div class="button"><img src="/static/imgs/click.png" width="20px">提 交</div>
         </div>
     </div>
 
@@ -35,20 +46,38 @@
     <script>
 
         var page = new Vue({
-            el: '.swiper-wrapper',
+            el: '#body',
             data: {
                 parentMessage: 'Parent',
                 items: [
-                    { id:1,url: '/static/imgs/toupiao-bg.jpg' , label_url:'/static/imgs/type.jpg' },
-                    { id:2,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg' },
-                    { id:3,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg' }
-                ]
+                    { id:1,url: '/static/imgs/toupiao-bg.jpg' , label_url:'/static/imgs/type.jpg',name:'李克强1' },
+                    { id:2,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg',name:'李克强2' },
+                    { id:3,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg',name:'李克强3'},
+                    { id:4,url: '/static/imgs/toupiao-bg.jpg' , label_url:'/static/imgs/type.jpg',name:'李克强1' },
+                    { id:5,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg',name:'李克强2' },
+                    { id:6,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg',name:'李克强3'}
+                ],
+                checked:[]//已选列表
             },
             ready:function () {
 
             },
             methods:{
+                checkItem:function ( item  ) {
+                    //event.preventDefault();
 
+                    console.log('item ' + item.id );
+                    console.log('checked length ' + this.checked.length  );
+                    if( this.checked.length > 2 ){
+                        this.checked.splice( 0 ,1 );
+                    }else{
+                        //this.checked.push( item.id );
+                    }
+                    //alert(this.checked.length  );
+                    console.log( this.checked );
+
+                    //
+                }
             }
         });
 

@@ -46,3 +46,73 @@ body {
     color: #666666;
     font-size: 12px;
 }
+
+/*选项*/
+.select{
+    width:320px;
+    margin: 10px auto 20px auto;
+}
+
+.select .items{
+    margin-top: 5px;
+
+}
+
+.select span{
+    color:#e25252 ;
+    font-size: 10px;
+}
+
+.select .ul{
+    height:40px;
+    background-color: #e8e8e8;
+    color:#333333;
+}
+
+.select .ul2 {
+    background-color: #efefef;
+}
+/**
+ * 隐藏默认的checkbox
+ */
+input[type=checkbox] {
+    background:url("/static/imgs/unchecked.jpg") no-repeat;
+    -webkit-appearance: none;
+    border: 0;
+    background-size: 100%;
+    width: 20px;
+    height: 20px;
+    margin: 10px;
+    vertical-align: middle;
+}
+input[type=checkbox]:checked {
+    background:url("/static/imgs/checked.jpg") no-repeat;
+    background-size: 100%;
+    width: 20px;
+    height: 20px;
+}
+/*选项 end */
+
+/*提交按钮*/
+.submit{
+    width: 100%;
+    margin: 10px auto;
+}
+
+.submit .button{
+    width: 250px;
+    margin: auto;
+    background-color: #e25252;
+    height:38px;
+    color: #ffffff;
+    text-align: center;
+    line-height: 38px;
+    font-size: 20px;
+    border-radius: 5px;
+}
+
+.submit img{
+    vertical-align: middle;
+    margin-right: 5px;
+}
+/*提交按钮 end*/
