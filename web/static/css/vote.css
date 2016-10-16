@@ -160,6 +160,18 @@ body {
     width: 20px;
     height: 20px;
 }
+
+.election .rs{
+    color:#e25252 ;
+    font-size: 14px;
+    float: right;
+}
+
+.election .icon{
+    width: 10px;
+    height: 10px;
+    display: inline;
+}
 /* 选举 end */
 
 /* alert 弹窗 */
@@ -216,5 +228,10 @@ body {
     width: 300px;
     height: auto;
 }
+.alert hr{
+    background-color: #999999;
+}
+
+
 /* alert 弹窗 */
 

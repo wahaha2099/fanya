@@ -20,58 +20,21 @@
     </div>
 
     <div class="content">
-        <template v-if="type == 'vote'">
-            <div class = "tips">
-                <img src="/static/imgs/tips.png"><span class="tips-head">说明:</span>
-                <div class="tips-info">因为12月需要组织一次党员生活会，看看大家对党员生活会的举办形式有什么意见，投票选择，没人最多选择2项</div>
-            </div>
 
-            <div class="select">
-                <div><b>选项</b><span>（注：每个最多选2项）</span></div>
-                <div class="items">
-                    <template v-for="item in items">
-                        <div class="ul" v-bind:class="{ 'ul2' : $index % 2 != 0  }">
-                            <input type="checkbox" @click="checkItem( item  )" value="{{ item.id }}" v-model="checked" lazy>{{ item.name }}
-                        </div>
-                    </template>
-
-                </div>
-            </div>
-        </template>
-
-        <template v-else>
             <div class="election-div">
                 <div class="items">
                     <template v-for="item in items">
                         <div class="election" v-bind:class="{ 'right' : $index % 2 != 0  }">
                             <img src="{{ item.url }}" @click="showItem( item )">
-                            <div>{{ item.name }} <input type="checkbox" @click="checkItem( item  )" value="{{ item.id }}" v-model="checked" lazy></div>
+                            <div>{{ item.name }} <span class="rs"><img class='icon'src="/static/imgs/good.png"> 128 票</span></div>
                         </div>
                     </template>
 
                 </div>
             </div>
-        </template>
-
-        <div class="alert" v-show="showDetail">
-            <div class="bg"></div>
-
-            <div class="center">
-                <span class="close" @click="closeItem"></span>
-                <div class="img" ><img src="{{ detail.url }}"/>
-                </div>
-
-                <div class="info">
-                    <b>{{ detail.name }}</b>
-                    <hr>
-                    {{ detail.info }}
-
-                </div>
-            </div>
-        </div>
 
         <div class="submit">
-            <div class="button" @click="submit" ><img src="/static/imgs/click.png" width="20px">提 交</div>
+            <div class="button" @click="submit" ><img src="/static/imgs/back.png" width="20px">返 回</div>
         </div>
     </div>
 
@@ -122,7 +85,7 @@
                     this.showDetail = false ;
                 },
                 submit:function () {
-                    window.location.href = 'result.html';
+                    window.location.href = 'index.html';
                 }
             }
         });
