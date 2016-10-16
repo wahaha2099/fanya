@@ -73,19 +73,19 @@ body {
     background-color: #efefef;
 }
 /**
- * 隐藏默认的checkbox
+ * checkbox
  */
-input[type=checkbox] {
+.select input[type=checkbox] {
     background:url("/static/imgs/unchecked.jpg") no-repeat;
     -webkit-appearance: none;
     border: 0;
     background-size: 100%;
     width: 20px;
     height: 20px;
-    margin: 10px;
+    margin: 10px auto ;
     vertical-align: middle;
 }
-input[type=checkbox]:checked {
+.select input[type=checkbox]:checked {
     background:url("/static/imgs/checked.jpg") no-repeat;
     background-size: 100%;
     width: 20px;
@@ -97,6 +97,8 @@ input[type=checkbox]:checked {
 .submit{
     width: 100%;
     margin: 10px auto;
+    padding-top: 10px;
+    clear: both;
 }
 
 .submit .button{
@@ -116,3 +118,46 @@ input[type=checkbox]:checked {
     margin-right: 5px;
 }
 /*提交按钮 end*/
+
+
+/* 选举*/
+.election-div{
+    width:320px;
+    margin: 1px auto 20px auto;
+}
+.election{
+    float: left;
+}
+.right{
+    margin-left: 35px;
+}
+.election img {
+    margin-top: 15px;
+    width: 140px;
+    height:140px;
+    display: block;
+}
+.election input{
+    float: right;
+}
+.election div{
+    width: 100%;
+    line-height: 38px;
+}
+.election input[type=checkbox] {
+    background:url("/static/imgs/unchecked2.jpg") no-repeat;
+    -webkit-appearance: none;
+    border: 0;
+    background-size: 100%;
+    width: 20px;
+    height: 20px;
+    margin: 10px auto ;
+    vertical-align: middle;
+}
+.election input[type=checkbox]:checked {
+    background:url("/static/imgs/checked.jpg") no-repeat;
+    background-size: 100%;
+    width: 20px;
+    height: 20px;
+}
+/* 选举*/

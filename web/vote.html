@@ -20,22 +20,38 @@
     </div>
 
     <div class="content">
-        <div class = "tips">
-            <img src="/static/imgs/tips.png"><span class="tips-head">说明:</span>
-            <div class="tips-info">因为12月需要组织一次党员生活会，看看大家对党员生活会的举办形式有什么意见，投票选择，没人最多选择2项</div>
-        </div>
-
-        <div class="select">
-            <div><b>选项</b><span>（注：每个最多选2项）</span></div>
-            <div class="items">
-                <template v-for="item in items">
-                    <div class="ul" v-bind:class="{ 'ul2' : $index % 2 != 0  }">
-                        <input type="checkbox" @click="checkItem( item  )" value="{{ item.id }}" v-model="checked" lazy>{{ item.name }}
-                    </div>
-                </template>
-
+        <template v-if="type == 'vote'">
+            <div class = "tips">
+                <img src="/static/imgs/tips.png"><span class="tips-head">说明:</span>
+                <div class="tips-info">因为12月需要组织一次党员生活会，看看大家对党员生活会的举办形式有什么意见，投票选择，没人最多选择2项</div>
             </div>
-        </div>
+
+            <div class="select">
+                <div><b>选项</b><span>（注：每个最多选2项）</span></div>
+                <div class="items">
+                    <template v-for="item in items">
+                        <div class="ul" v-bind:class="{ 'ul2' : $index % 2 != 0  }">
+                            <input type="checkbox" @click="checkItem( item  )" value="{{ item.id }}" v-model="checked" lazy>{{ item.name }}
+                        </div>
+                    </template>
+
+                </div>
+            </div>
+        </template>
+
+        <template v-else>
+            <div class="election-div">
+                <div class="items">
+                    <template v-for="item in items">
+                        <div class="election" v-bind:class="{ 'right' : $index % 2 != 0  }">
+                            <img src="{{ item.url }}">
+                            <div>{{ item.name }} <input type="checkbox" @click="checkItem( item  )" value="{{ item.id }}" v-model="checked" lazy></div>
+                        </div>
+                    </template>
+
+                </div>
+            </div>
+        </template>
 
         <div class="submit">
             <div class="button" @click="submit" ><img src="/static/imgs/click.png" width="20px">提 交</div>
@@ -49,13 +65,12 @@
             el: '#body',
             data: {
                 parentMessage: 'Parent',
+                type:'vote1',
                 items: [
                     { id:1,url: '/static/imgs/toupiao-bg.jpg' , label_url:'/static/imgs/type.jpg',name:'李克强1' },
                     { id:2,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg',name:'李克强2' },
                     { id:3,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg',name:'李克强3'},
                     { id:4,url: '/static/imgs/toupiao-bg.jpg' , label_url:'/static/imgs/type.jpg',name:'李克强1' },
-                    { id:5,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg',name:'李克强2' },
-                    { id:6,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg',name:'李克强3'}
                 ],
                 checked:[]//已选列表
             },
