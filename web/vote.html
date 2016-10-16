@@ -44,7 +44,7 @@
                 <div class="items">
                     <template v-for="item in items">
                         <div class="election" v-bind:class="{ 'right' : $index % 2 != 0  }">
-                            <img src="{{ item.url }}">
+                            <img src="{{ item.url }}" @click="showItem( item )">
                             <div>{{ item.name }} <input type="checkbox" @click="checkItem( item  )" value="{{ item.id }}" v-model="checked" lazy></div>
                         </div>
                     </template>
@@ -52,6 +52,23 @@
                 </div>
             </div>
         </template>
+
+        <div class="alert" v-show="showDetail">
+            <div class="bg"></div>
+
+            <div class="center">
+                <span class="close" @click="closeItem"></span>
+                <div class="img" ><img src="{{ detail.url }}"/>
+                </div>
+
+                <div class="info">
+                    <b>{{ detail.name }}</b>
+                    <hr>
+                    {{ detail.info }}
+
+                </div>
+            </div>
+        </div>
 
         <div class="submit">
             <div class="button" @click="submit" ><img src="/static/imgs/click.png" width="20px">提 交</div>
@@ -67,12 +84,15 @@
                 parentMessage: 'Parent',
                 type:'vote1',
                 items: [
-                    { id:1,url: '/static/imgs/toupiao-bg.jpg' , label_url:'/static/imgs/type.jpg',name:'李克强1' },
-                    { id:2,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg',name:'李克强2' },
-                    { id:3,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg',name:'李克强3'},
-                    { id:4,url: '/static/imgs/toupiao-bg.jpg' , label_url:'/static/imgs/type.jpg',name:'李克强1' },
+                    { id:1,url: '/static/imgs/toupiao-bg.jpg' , label_url:'/static/imgs/type.jpg',name:'李克强1' , info:'李克强，男，汉族，1955年7月生，安徽定远人1957年3月参加工作，1976年5月加入中国共产党，北京大学律系和经济学院经济'},
+                    { id:2,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg',name:'李克强2'  , info:'李克强，男，汉族，1955年7月生，安徽定远人1957年3月参加工作，1976年5月加入中国共产党，北京大学律系和经济学院经济'},
+                    { id:3,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg',name:'李克强3' , info:'李克强，男，汉族，1955年7月生，安徽定远人1957年3月参加工作，1976年5月加入中国共产党，北京大学律系和经济学院经济'},
+                    { id:4,url: '/static/imgs/toupiao-bg.jpg' , label_url:'/static/imgs/type.jpg',name:'李克强1'  , info:'李克强，男，汉族，1955年7月生，安徽定远人1957年3月参加工作，1976年5月加入中国共产党，北京大学律系和经济学院经济'},
                 ],
-                checked:[]//已选列表
+                checked:[],//已选列表
+                detail:null,
+                showDetail:false,
+                selectCount:1
             },
             ready:function () {
 
@@ -83,7 +103,7 @@
 
                     console.log('item ' + item.id );
                     console.log('checked length ' + this.checked.length  );
-                    if( this.checked.length > 2 ){
+                    if( this.checked.length > this.selectCount ){
                         this.checked.splice( 0 ,1 );
                     }else{
                         //this.checked.push( item.id );
@@ -92,6 +112,14 @@
                     console.log( this.checked );
 
                     //
+                },
+                showItem:function( item ){
+                    this.detail = item ;
+                    this.showDetail = true ;
+                },
+                closeItem:function(){
+                    console.log( 'close item calling ');
+                    this.showDetail = false ;
                 },
                 submit:function () {
                     console.log( ' submit '+ this.checked );
