@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="body">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-COMPATIBLE" content="IE=Edge, chrome=1">
@@ -12,14 +12,14 @@
     <title>签到</title>
 </head>
 
-<body id="body">
+<body  class="{{ bodyClass }}">
 
     <div class="head">
         <img src="/static/imgs/head.jpg" width="100%">
         <div class="title"><img  src="/static/imgs/gezi.jpg"/><b>普通投票</b><img src="/static/imgs/gezi.jpg" /></div>
     </div>
 
-    <div class="content">
+    <div class="content "  >
         <template v-if="type == 'vote'">
             <div class = "tips">
                 <img src="/static/imgs/tips.png"><span class="tips-head">说明:</span>
@@ -30,7 +30,7 @@
                 <div><b>选项</b><span>（注：每个最多选2项）</span></div>
                 <div class="items">
                     <template v-for="item in items">
-                        <div class="ul" v-bind:class="{ 'ul2' : $index % 2 != 0  }">
+                        <div class="ul " v-bind:class="{ 'ul2' : $index % 2 != 0  }">
                             <input type="checkbox" @click="checkItem( item  )" value="{{ item.id }}" v-model="checked" lazy>{{ item.name }}
                         </div>
                     </template>
@@ -92,7 +92,8 @@
                 checked:[],//已选列表
                 detail:null,
                 showDetail:false,
-                selectCount:1
+                selectCount:1,
+                bodyClass:'html-body-auto'
             },
             ready:function () {
 
@@ -114,11 +115,12 @@
                     //
                 },
                 showItem:function( item ){
+                    this.bodyClass = 'html-body-overflow';
                     this.detail = item ;
                     this.showDetail = true ;
                 },
                 closeItem:function(){
-                    console.log( 'close item calling ');
+                    this.bodyClass = 'html-body-auto';
                     this.showDetail = false ;
                 },
                 submit:function () {

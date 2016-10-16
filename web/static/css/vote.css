@@ -235,3 +235,18 @@ body {
 
 /* alert 弹窗 */
 
+.html-body-overflow
+{
+    overflow-x:hidden;
+    overflow-y:hidden;
+    position: fixed;
+    overflow: hidden;
+}
+
+.html-body-auto
+{
+    overflow-x:auto;
+    overflow-y:auto;
+    position: relative;
+    overflow: auto;
+}
