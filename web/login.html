@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+<body id="body">
+
+<input name="pid"  v-model="pid"><button @click="login" >登录</button>
+
+
+</body>
+
+<script type="text/javascript" src="/static/js/vue.min.js"></script>
+<script type="text/javascript" src="/static/js/vue-resource.min.js"></script>
+
+<script>
+    //http://www.kaasworld.com:9000/
+    var page = new Vue({
+        el: '#body',
+        data: {
+            pid:1
+        },
+        methods:{
+            login:function () {
+                this.$http.post('/v1/not_auth/mobile' , { 'pid' : this.pid } ).then((response) => {
+                    // success callback
+                    console.log(response);
+                }, (response) => {
+                    // error callback
+                    console.log(response);
+                });
+            }
+        }
+        });
+
+
+</script>
+</html>
