@@ -3,13 +3,12 @@ package com.qingyu.fanya;
 import com.qingyu.fanya.QingyuSDK.LoginCallback;
 import com.qingyu.fanya.QingyuSDK.Settings;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
 	QingyuSDK sdk = new QingyuSDK();
     @Override
@@ -27,11 +26,11 @@ public class MainActivity extends AppCompatActivity {
 		//        setContentView(R.layout.activity_main);
         sdk.showJoin(callback);
     }
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+       // getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -45,5 +44,5 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }

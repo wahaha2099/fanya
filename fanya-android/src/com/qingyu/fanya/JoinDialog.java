@@ -15,8 +15,8 @@ final class JoinDialog extends WebDialog {
 	private QingyuSDK.Settings params;
 
 	public JoinDialog(Context context, QingyuSDK.Settings params) {
-		super(context, "join.html", new JoinJSObject(context));
-	//	super(context, "http://www.baidu.com", new JoinJSObject(context));
+	//	super(context, "join.html", new JoinJSObject(context));
+		super(context, "http://120.26.55.126/index.html", new JoinJSObject(context));
 		this.params = params;
 		setOnKeyListener(new DialogInterface.OnKeyListener() {
 			public boolean onKey(DialogInterface arg0, int arg1, KeyEvent arg2) {
