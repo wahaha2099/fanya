@@ -23,6 +23,14 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		
+		login();
+
+		
+	}
+
+	private void showPage(){
 		LoginCallback callback = new LoginCallback() {
 			public void onComplete(QingyuSDK.AccountInfo paramAccountInfo) {
 			};
@@ -34,14 +42,12 @@ public class MainActivity extends Activity {
 			};
 		};
 		
-		login();
-
-//		Settings settings = new Settings("1", "1", "1");
-//		sdk.init(this, settings);
-//		// setContentView(R.layout.activity_main);
-//		sdk.showJoin(callback);
+		Settings settings = new Settings("1", "1", "1");
+		sdk.init(this, settings);
+		// setContentView(R.layout.activity_main);
+		sdk.showJoin(callback);
 	}
-
+	
 	public void login() {
 		ssoAgent = MobileArkSSOAgent.getInstance( getApplicationContext());
 		String packagename = "com.saicgmuat.mobileark";
@@ -54,24 +60,39 @@ public class MainActivity extends Activity {
 						Toast.LENGTH_SHORT).show();
 				Log.e("SDK", resultCode +" "+ resultMessage);
 				if (resultCode == 0) {
-					ssoAgent.getToken(new GetTokenListener() {
-						@Override
-						public void finishCallBack(int resultCode, String resultMessage, String token) {
-							// do something
-							Log.e("SDK", " login finish " + resultCode +" token "+ token  );
-						}
-					});
-					String key = "loginname";// 要获取的登录参数Key 值，可输入值为“loginname”,
-									// “password”,”ecid”
-
-					ssoAgent.getParam(key, new GetParamListener() {
-						@Override
-						public void finishCallBack(int resultCode, String resultMessage, String value) {
-							Log.e("SDK", " login finish " + resultCode +" value "+ value  );
-						}
-					});
+					getToken();
+					getUserName();
 				}
 			}
 		});
 	}
+	
+	private void getToken(){
+		ssoAgent.getToken(new GetTokenListener() {
+			@Override
+			public void finishCallBack(int resultCode, String resultMessage, String token) {
+				// do something
+				Log.e("SDK", " login finish " + resultCode +" token "+ token  );
+				
+				FanyaSDK.token = token ;
+				
+				showPage();
+			}
+		});
+	}
+	
+	private void getUserName(){
+		String key = "loginname";// 要获取的登录参数Key 值，可输入值为“loginname”,“password”,”ecid”
+
+		ssoAgent.getParam(key, new GetParamListener() {
+			@Override
+			public void finishCallBack(int resultCode, String resultMessage, String value) {
+			Log.e("SDK", " login finish " + resultCode +" value "+ value  );
+			
+			FanyaSDK.loginName = value;
+			}
+		});
+	}
 }
+
+

@@ -15,7 +15,7 @@ public final class QingyuSDK {
 	static Context context;
 	static Settings settings;
 
-	private static JoinDialog join;
+	private static SignDialog join;
 //	private static SelectDialog select;
 //	private static LoginDialog login;
 //	private static WaitDialog wait;
@@ -27,7 +27,7 @@ public final class QingyuSDK {
 		QingyuSDK.context = context;
 		QingyuSDK.settings = settings;
 
-		join = new JoinDialog(context, settings);
+		join = new SignDialog(context, settings);
 		
 //		payment = new PaymentDialog(context, settings);
 //		select = new SelectDialog(context, settings);

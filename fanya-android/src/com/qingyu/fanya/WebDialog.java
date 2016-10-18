@@ -9,6 +9,7 @@ import android.os.Message;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
@@ -97,6 +98,10 @@ public class WebDialog extends Dialog {
 	}
 
 	public static class JSObject {
+		
+		@JavascriptInterface  
+		public String toString() { return "android"; }  
+		
 		public static final int METHOD_INFO = 1001;
 		public static final int METHOD_DEBUG = 1002;
 		public static final int METHOD_ERROR = 1003;
@@ -107,7 +112,7 @@ public class WebDialog extends Dialog {
 		protected Context context;
 		protected Handler handler;
 
-		public JSObject(Context context) {
+		public void init(Context context) {
 			this.context = context;
 			this.handler = new Handler() {
 				public void handleMessage(Message msg) {
@@ -119,6 +124,7 @@ public class WebDialog extends Dialog {
 		}
 
 		@SuppressLint({ "JavascriptInterface" })
+		@JavascriptInterface  
 		public void info(String msg) {
 			sendMessage(1001, msg);
 		}

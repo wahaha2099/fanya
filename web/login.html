@@ -5,6 +5,21 @@
     <title>登录</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 </head>
+<script>
+    function setContent(data) {
+
+        data = JSON.parse(data);
+        appid = data["token"];
+        appkey = data["loginname"];
+        android.info("setContent: " + data);
+        enablePage();
+    }
+
+    function enablePage(){
+        window.location.href = 'index.html';
+    }
+
+</script>
 <body id="body">
 
 <input name="pid"  v-model="pid"><button @click="login" >登录</button>
@@ -16,6 +31,8 @@
 <script type="text/javascript" src="/static/js/vue-resource.min.js"></script>
 
 <script>
+
+/*
     //http://www.kaasworld.com:9000/
     var page = new Vue({
         el: '#body',
@@ -34,7 +51,7 @@
             }
         }
         });
-
+*/
 
 </script>
 </html>
