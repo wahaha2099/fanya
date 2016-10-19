@@ -12,3 +12,5 @@ iwork的包名com.saicgmuat.mobileark
 http://www.kaasworld.com:9000/v1/mobile/vote?id=1
 比如我这个接口，api调用是否变成：
  https:// b2eapi.saic-gm.com:3233/service/mytest/v1/mobile/vote?id=1
+
+ qyvote
