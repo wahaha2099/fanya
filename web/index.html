@@ -27,15 +27,19 @@
                 <!-- Slides -->
                 <template v-for="item in items">
                     <div class="swiper-slide" >
-                        <div class="item" style="background-image: url({{item.url}})" >
-                            <img src="{{item.label_url}}">
+                        <div class="item" style="background-image: url({{item.background}})" >
+
+                            <img src="/static/imgs/type.jpg" v-if="item.type==2" />
+                            <img src="/static/imgs/type2.jpg" v-if="item.type==1" />
+
                             <div class="info">
-                                <div class="topic"><b>XX党支部换届选举</b></div>
-                                <div class="time">时间：2016年11月15日</div>
-                                <div class="address">地点：上海香格里拉大酒店</div>
+                                <div class="topic"><b>{{ item.title }}</b></div>
+                                <div class="time">时间：{{ item.time }}</div>
+                                <div class="address">{{ (item.address ? '地点：'+item.address:'') }}</div>
                             </div>
 
-                            <div class="action" v-on:click="goSign( item )"><b>去签到</b></div>
+                            <div class="action" v-on:click="goSign( item )" v-if="item.status==1"><b>去签到</b></div>
+                            <div class="action"  v-if="item.status!=1"><b>已过期</b></div>
                         </div>
                     </div>
                 </template>
@@ -49,20 +53,57 @@
     <script type="text/javascript" src="/static/plugins/swiper/js/swiper.min.js"></script>
     <script type="text/javascript" src="/static/js/vue.min.js"></script>
     <script>
-
-        var page = new Vue({
+        //server = 'http://localhost/';
+        var vue = new Vue({
             el: '.swiper-wrapper',
             data: {
                 parentMessage: 'Parent',
                 items: [
-                    { id:1,url: '/static/imgs/toupiao-bg.jpg' , label_url:'/static/imgs/type.jpg' },
-                    { id:2,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg' },
-                    { id:3,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg' }
+                    /*{
+                        "id": -1,
+                        "title": "领导人选举",
+                        "content": "选举党最新领导人",
+                        "background": "/static/imgs/toupiao-bg.jpg",  //背景图
+                        "admin_id": 1,
+                        "status": 1,
+                        "type": 1,  //1：选举 2：投票
+                        "start_time": "2016-10-15T16:07:49+08:00",
+                        "end_time": "2017-01-01T11:11:11+08:00",
+                        "branch_id": 1,
+                        "create_time": "2016-10-15T15:48:26+08:00"
+                    },
+                    {
+                        "id": -1,
+                        "title": "领导人选举",
+                        "content": "选举党最新领导人",
+                        "background": "/static/imgs/toupiao-bg.jpg",  //背景图
+                        "admin_id": 1,
+                        "status": 1,
+                        "type": 1,  //1：选举 2：投票
+                        "start_time": "2016-10-15T16:07:49+08:00",
+                        "end_time": "2017-01-01T11:11:11+08:00",
+                        "branch_id": 1,
+                        "create_time": "2016-10-15T15:48:26+08:00"
+                    },
+                    {
+                        "id": -1,
+                        "title": "领导人选举",
+                        "content": "选举党最新领导人",
+                        "background": "/static/imgs/toupiao-bg.jpg",  //背景图
+                        "admin_id": 1,
+                        "status": 1,
+                        "type": 1,  //1：选举 2：投票
+                        "start_time": "2016-10-15T16:07:49+08:00",
+                        "end_time": "2017-01-01T11:11:11+08:00",
+                        "branch_id": 1,
+                        "create_time": "2016-10-15T15:48:26+08:00"
+                    }*/
                 ]
             },
             ready:function () {
                //this.$nextTick(function () {
-                    this.initSwiper();
+                this.loadData();
+                //this.initSwiper();
                // })
             },
             methods:{
@@ -83,6 +124,42 @@
                             slideShadows : true
                         }
                      });
+
+//                    console.log(' calling swiper ' + this.items.length );
+                },
+                loadData:function(){//获取投票数据
+                    this.$http.get( server + '/v1/mobile/vote?user_id='+ getUrlParam('userId') , {'emulateJSON':true,'headers':{'token':getUrlParam('userToken')}}).then( this.loadDataSuccess ,this.loadDataError );
+                },
+                loadDataSuccess:function(response){
+                    console.log(response.data);
+
+                    if( response.data.code ==0 ){
+                        for(var i = 0 ; i < response.data.data.length ; i++){
+                            var item = response.data.data[i];
+
+                            item.background = "/static/imgs/toupiao-bg.jpg" ;
+                            var startTime = Date.parse(item.start_time);
+                            var endTime = Date.parse(item.end_time);
+                            var now = new Date().getTime();
+                            if( now < startTime || now > endTime ){
+                                item.status = 2;
+                            }
+
+                            item.time = item.start_time.substring(0,"2016-10-15".length) + '至' + item.end_time.substring(0,"2016-10-15".length) ;
+                            this.items.push( item );
+                        }
+                    }
+
+                    console.log( JSON.stringify( this.items ) );
+
+                    this.$nextTick(function () {
+                        // `this` 绑定到当前实例
+                        vue.initSwiper();
+                    })
+                    //alert( JSON.stringify(response.data ) );
+                },
+                loadDataError:function( response){
+                    console.log(response);
                 },
                 goSign:function ( item ) {
                     console.log( item );
@@ -91,6 +168,7 @@
             }
         });
 
+        //vue.loadData();
     </script>
 </body>
 </html>

@@ -14,16 +14,17 @@
 </body>
 
 <script type="text/javascript" src="/static/js/vue.min.js"></script>
-<script type="text/javascript" src="/static/js/vue-resource.min.js"></script>
 
 <script>
-    var server = 'http://www.kaasworld.com:9000';
-    //server = 'http://localhost';
+
 
     var vue = new Vue({
         el: '#body',
         data: {
-            pid:'xxxxx8'
+            pid:'sbgyr8',
+            iworkToken : '',
+            userToken:'',
+            userId:''
         },
         methods:{
             login:function () {
@@ -32,9 +33,10 @@
             success:function(response){
                 console.log(response);
 
-                alert( JSON.stringify(response.data ) );
-
-                //goIndex();
+                //alert( JSON.stringify(response.data ) );
+                vue.userId = response.data.data.id;
+                vue.userToken = response.data.token ;
+                goIndex();
             },
             error:function( response){
                 console.log(response);
@@ -48,17 +50,19 @@
         data = JSON.parse(data);
         var token  = data["token"];
         var loginname = data["loginname"];
+
         vue.pid = loginname ;
+        vue.iworkToken = token ;
 
         if( android )
             android.info("setContent: " + data);
 
-        //vue.login();
+        vue.login();
         //enablePage();
     }
 
-    function goIndex(){
-        window.location.href = 'index.html';
+    function goIndex( ){
+        window.location.href = 'index.html?userId=' + vue.userId +"&userToken=" + vue.userToken +"&iworkToken="+vue.iworkToken +"&pid=" + vue.pid ;
     }
 
 </script>
