@@ -31,6 +31,9 @@ public class MainActivity extends Activity {
 	}
 
 	private void showPage(){
+		if( FanyaSDK.token == null || FanyaSDK.loginName == null )
+			return ; 
+		
 		LoginCallback callback = new LoginCallback() {
 			public void onComplete(QingyuSDK.AccountInfo paramAccountInfo) {
 			};
@@ -87,9 +90,11 @@ public class MainActivity extends Activity {
 		ssoAgent.getParam(key, new GetParamListener() {
 			@Override
 			public void finishCallBack(int resultCode, String resultMessage, String value) {
-			Log.e("SDK", " login finish " + resultCode +" value "+ value  );
+				Log.e("SDK", " login finish " + resultCode +" value "+ value  );
 			
-			FanyaSDK.loginName = value;
+				FanyaSDK.loginName = value;
+				
+				showPage();
 			}
 		});
 	}

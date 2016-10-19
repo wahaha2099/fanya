@@ -5,21 +5,7 @@
     <title>登录</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 </head>
-<script>
-    function setContent(data) {
 
-        data = JSON.parse(data);
-        appid = data["token"];
-        appkey = data["loginname"];
-        android.info("setContent: " + data);
-        enablePage();
-    }
-
-    function enablePage(){
-        window.location.href = 'index.html';
-    }
-
-</script>
 <body id="body">
 
 <input name="pid"  v-model="pid"><button @click="login" >登录</button>
@@ -31,27 +17,49 @@
 <script type="text/javascript" src="/static/js/vue-resource.min.js"></script>
 
 <script>
+    var server = 'http://www.kaasworld.com:9000';
+    //server = 'http://localhost';
 
-/*
-    //http://www.kaasworld.com:9000/
-    var page = new Vue({
+    var vue = new Vue({
         el: '#body',
         data: {
-            pid:1
+            pid:'xxxxx8'
         },
         methods:{
             login:function () {
-                this.$http.post('/v1/not_auth/mobile' , { 'pid' : this.pid } ).then((response) => {
-                    // success callback
-                    console.log(response);
-                }, (response) => {
-                    // error callback
-                    console.log(response);
-                });
+                this.$http.post( server + '/v1/not_auth/mobile' , {pid:this.pid} , {'emulateJSON':true}).then( this.success ,this.error );
+            },
+            success:function(response){
+                console.log(response);
+
+                alert( JSON.stringify(response.data ) );
+
+                //goIndex();
+            },
+            error:function( response){
+                console.log(response);
             }
         }
-        });
-*/
+    });
+</script>
+<script>
+    //setContent( JSON.stringify({'loginname':'123' , 'token':123}));
+    function setContent(data) {
+        data = JSON.parse(data);
+        var token  = data["token"];
+        var loginname = data["loginname"];
+        vue.pid = loginname ;
+
+        if( android )
+            android.info("setContent: " + data);
+
+        //vue.login();
+        //enablePage();
+    }
+
+    function goIndex(){
+        window.location.href = 'index.html';
+    }
 
 </script>
 </html>
