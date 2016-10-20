@@ -38,7 +38,7 @@
                                 <div class="address">{{ (item.address ? '地点：'+item.address:'') }}</div>
                             </div>
 
-                            <div class="action" v-on:click="goSign( item )" v-if="item.status==1"><b>去签到</b></div>
+                            <div class="action" v-on:click="checkSign( item )" v-if="item.status==1"><b>去签到</b></div>
                             <div class="action"  v-if="item.status==0"><b>未开始</b></div>
                             <div class="action"  v-if="item.status==2"><b>已过期</b></div>
                         </div>
@@ -76,10 +76,7 @@
                 ]
             },
             ready:function () {
-               //this.$nextTick(function () {
                 this.loadData();
-                //this.initSwiper();
-               // })
             },
             methods:{
                 initSwiper:function(event){ //初始化轮播图
@@ -99,11 +96,10 @@
                             slideShadows : true
                         }
                      });
-
 //                    console.log(' calling swiper ' + this.items.length );
                 },
                 loadData:function(){//获取投票数据
-                    Site.get( '/v1/mobile/vote?user_id='+ getUrlParam('userId') , {'emulateJSON':true,'headers':{'token':getUrlParam('userToken')}} ,this.loadDataSuccess , this.loadDataError );
+                    Site.get( '/v1/mobile/vote?user_id='+ getUrlParam('userId') ,this.loadDataSuccess , this.loadDataError );
 //                    this.$http.get( server + '/v1/mobile/vote?user_id='+ getUrlParam('userId') , {'emulateJSON':true,'headers':{'token':getUrlParam('userToken')}}).then( this.loadDataSuccess ,this.loadDataError );
                 },
                 loadDataSuccess:function(response){
@@ -136,12 +132,49 @@
                 },
                 loadDataError:function( response){
                     console.log(response);
+                    alert('请求失败，请重试');
                 },
-                goSign:function ( item ) {
-                    console.log( item );
+                checkSign:function ( item ) {//检查投票状态
+                    var url = "/v1/mobile/vote/" + item.id + "/status?user_id="+ getUrlParam('userId') ;
 
-                    var url = "/v1/mobile/vote/:id/check";
-                    window.location.href = "vote.html?id=" + item.id ;
+                    var statusCallback = function( rsp ){
+                        if( rsp.data.code == 0 ){
+                            // 1表示未签到、2表示签到成功、3表示可以投票、4投票成功
+                            var status = rsp.data.data;
+
+                            //test
+                            vue.goVote( item );
+
+                            if( status == 1 ) {
+                                vue.getCheckDetail(item);
+                            }else if ( status == 3){
+                                vue.goVote( item );
+                            }
+                        }
+                    }
+                    Site.get( url, statusCallback , this.loadDataError );
+                },
+                getCheckDetail:function( item ){  //获取签到详情
+                    var url = "/v1/mobile/vote/" + item.id + "/check";
+                    var statusCallback = function( rsp ){
+                        if( rsp.data.code == 0 ){
+                            // 1表示未签到、2表示签到成功、3表示可以投票、4投票成功
+                            var checkId = rsp.data.data.id;
+                            vue.doCheck( item , checkId );
+                        }
+                    }
+                    Site.get( url, statusCallback , this.loadDataError );
+                },
+                doCheck:function ( item , checkId) {//进行签到
+                    var checkCallback = function(rsp){
+                        console.log(JSON.stringify(rsp.data));
+                        vue.goVote(item);
+                    }
+                    var checkUrl = "/v1/mobile/check/" + checkId ;
+                    Site.post( checkUrl , {user_id:getUrlParam('userId') , latitude:22.540780 , longitude:113.934600 } , checkCallback , this.loadDataError)
+                },
+                goVote:function( item ){//前往投票页面
+                    Site.goto( 'vote.html?id=' + item.id +"&type=" + item.type );
                 }
             }
         });
