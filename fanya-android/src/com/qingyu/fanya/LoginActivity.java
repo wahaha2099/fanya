@@ -1,48 +1,62 @@
 package com.qingyu.fanya;
 
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnKeyListener;
-import android.view.KeyEvent;
-import android.webkit.JavascriptInterface;
-import android.widget.Toast;
-
 import java.util.HashMap;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-final class SignDialog extends WebDialog {
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.os.Bundle;
+import android.webkit.JavascriptInterface;
+import android.widget.Toast;
 
-	public SignDialog(Context context, QingyuSDK.Settings params) {
-	//	super(context, "join.html", new JoinJSObject(context));
-	//	super(context, "http://120.26.55.126/index.html", new JoinJSObject(context));
-		super(context, "http://192.168.1.107/", getJSObject(context));
+import com.qingyu.fanya.IWorkSDK.LoginCallback;
+import com.qingyu.fanya.webview.WebActivity;
+
+
+public class LoginActivity extends WebActivity {
+
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
 		
-		setOnKeyListener(new DialogInterface.OnKeyListener() {
-			public boolean onKey(DialogInterface arg0, int arg1, KeyEvent arg2) {
-				if (arg1 == 4) {
-					SignDialog.this.getJSObject().sendMessage(1);
-					return true;
-				}
-				return false;
-			}
-		});
+		setUrl("http://192.168.1.107/");
+		show();
+		
+		sdkLogin();
 	}
-
-	private static JSObject getJSObject(Context context) {
+	
+	public void sdkLogin(){
+		IWorkSDK.callback = new LoginCallback(){
+			public void loginCallback(){
+				notifyPage();
+			}
+		};
+		IWorkSDK.instance.login(this);
+	}
+	
+	public JSObject getJSObject() {
 		JoinJSObject json = new JoinJSObject();
-		json.init(context);
+		json.init(getApplicationContext());
 		return json;
 	}
-
-	public void setCallback(QingyuSDK.LoginCallback callback) {
-		((JoinJSObject) this.jsobject).setCallback(callback);
-	}
-
+	
+	@Override
+	@SuppressLint("SetJavaScriptEnabled")
 	public void show() {
+		// TODO Auto-generated method stub
 		super.show();
-
+		
+	}
+	
+	/**
+	 * 通知页面登录成功
+	 */
+	public void notifyPage(){
 		HashMap<String, Object> hash = new HashMap<String, Object>();
 		hash.put("token", IWorkSDK.token);
 		hash.put("loginname", IWorkSDK.loginName );
@@ -53,10 +67,9 @@ final class SignDialog extends WebDialog {
 
 	public void hide() {
 		call("resetControl");
-		super.hide();
 	}
 
-	static class JoinJSObject extends WebDialog.JSObject {
+	static class JoinJSObject extends WebActivity.JSObject {
 		private QingyuSDK.LoginCallback callback;
 
 		@JavascriptInterface  

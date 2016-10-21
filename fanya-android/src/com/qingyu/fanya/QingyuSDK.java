@@ -113,16 +113,16 @@ public final class QingyuSDK {
 //			password.hide();
 	}
 	/**隐藏所有页面**/
-	static void hideAll(){
+	public static void hideAll(){
 		hideDetail();
 		hidePassword();
 	}
 	/**等待**/
-	static void showWait() {
+	public static void showWait() {
 		hideWait();
 //		wait.show();
 	}
-	static void hideWait() {
+	public static void hideWait() {
 //		if (wait != null)
 //			wait.hide();
 	}
