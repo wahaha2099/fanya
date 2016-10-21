@@ -26,12 +26,30 @@
                     <template v-for="item in items">
                         <div class="election" v-bind:class="{ 'right' : $index % 2 != 0  }">
                             <img src="{{ item.url }}" @click="showItem( item )">
-                            <div>{{ item.name }} <span class="rs"><img class='icon'src="/static/imgs/good.png"> 128 票</span></div>
+                            <div>{{ item.text }} <span class="rs"><img class='icon'src="/static/imgs/good.png"> {{ item.count }} 票</span></div>
                         </div>
                     </template>
 
                 </div>
             </div>
+
+        <div class="alert" v-show="showDetail" style="display: none">
+            <div class="bg"></div>
+
+            <div class="center">
+                <span class="close" @click="closeItem"></span>
+                <div class="img" ><img src="{{ detail.refer_user.head_image }}"/>
+                </div>
+
+                <div class="info">
+                    <b>{{ detail.refer_user.name }}</b>
+                    <hr>
+                    {{ detail.refer_user.detail }}
+
+                </div>
+            </div>
+        </div>
+
 
         <div class="submit">
             <div class="button" @click="submit" ><img src="/static/imgs/back.png" width="20px">返 回</div>
@@ -41,51 +59,56 @@
     <script type="text/javascript" src="/static/js/vue.min.js"></script>
     <script>
 
-        var page = new Vue({
+        var vue = new Vue({
             el: '#body',
             data: {
                 parentMessage: 'Parent',
                 type:'vote1',
-                items: [
-                    { id:1,url: '/static/imgs/toupiao-bg.jpg' , label_url:'/static/imgs/type.jpg',name:'李克强1' , info:'李克强，男，汉族，1955年7月生，安徽定远人1957年3月参加工作，1976年5月加入中国共产党，北京大学律系和经济学院经济'},
-                    { id:2,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg',name:'李克强2'  , info:'李克强，男，汉族，1955年7月生，安徽定远人1957年3月参加工作，1976年5月加入中国共产党，北京大学律系和经济学院经济'},
-                    { id:3,url: '/static/imgs/toupiao-bg.jpg', label_url:'/static/imgs/type2.jpg',name:'李克强3' , info:'李克强，男，汉族，1955年7月生，安徽定远人1957年3月参加工作，1976年5月加入中国共产党，北京大学律系和经济学院经济'},
-                    { id:4,url: '/static/imgs/toupiao-bg.jpg' , label_url:'/static/imgs/type.jpg',name:'李克强1'  , info:'李克强，男，汉族，1955年7月生，安徽定远人1957年3月参加工作，1976年5月加入中国共产党，北京大学律系和经济学院经济'},
-                ],
+                items: [],
                 checked:[],//已选列表
                 detail:null,
                 showDetail:false,
                 selectCount:1
             },
             ready:function () {
-
+                this.loadData();
             },
             methods:{
-                checkItem:function ( item  ) {
-                    //event.preventDefault();
-
-                    console.log('item ' + item.id );
-                    console.log('checked length ' + this.checked.length  );
-                    if( this.checked.length > this.selectCount ){
-                        this.checked.splice( 0 ,1 );
-                    }else{
-                        //this.checked.push( item.id );
-                    }
-                    //alert(this.checked.length  );
-                    console.log( this.checked );
-
-                    //
-                },
-                showItem:function( item ){
+                showItem:function( item ){//显示候选人详情
+                    if( item.refer_type != 1)return ;
+                    this.bodyClass = 'html-body-overflow';
                     this.detail = item ;
                     this.showDetail = true ;
                 },
-                closeItem:function(){
-                    console.log( 'close item calling ');
+                closeItem:function(){//关闭候选人详情
+                    this.bodyClass = 'html-body-auto';
                     this.showDetail = false ;
                 },
+                /*页面操作函数 结束*/
+                loadDataError:function( response){
+                    console.log(response);
+                    alert('请求失败，请重试');
+                },
+                loadData:function(){//读取页面数据
+                    this.type = getUrlParam('type') == '1' ? 'election' : 'vote';
+
+                    var callback = function(rsp){
+                        if( rsp.data.code ==0 ){
+                            this.selectCount = rsp.data.per_num;
+                            for(var i = 0 ; i < rsp.data.data.length ; i++){
+                                var item = rsp.data.data[i];
+                                item.url = "/static/imgs/toupiao-bg.jpg" ;
+                                if(item.refer_type == 1)
+                                    item.refer_user.head_image = "/static/imgs/toupiao-bg.jpg" ;
+                                vue.items.push( item );
+                            }
+                        }
+                    }
+                    var url = '/v1/mobile/vote/'+ getUrlParam('id')+'/last/result';
+                    Site.get( url  , callback , this.loadDataError );
+                },
                 submit:function () {
-                    window.location.href = 'index.html';
+                   Site.goto('sign.html');
                 }
             }
         });

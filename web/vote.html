@@ -27,11 +27,11 @@
             </div>-->
 
             <div class="select">
-                <div><b>选项</b><span>（注：每个最多选2项）</span></div>
+                <div><b>选项</b><span>（注：每个最多选{{ selectCount }}项）</span></div>
                 <div class="items">
                     <template v-for="item in items">
                         <div class="ul " v-bind:class="{ 'ul2' : $index % 2 != 0  }">
-                            <input type="checkbox" @click="checkItem( item  )" value="{{ item.id }}" v-el:checkel v2-model="checked2" lazy>{{ item.text }}
+                            <input type="checkbox" @click="checkItem( item  )" value="{{ item.id }}" id="{{ 'item_'+item.id }}" v-model="checked" lazy>{{ item.text }}
                         </div>
                     </template>
 
@@ -45,7 +45,7 @@
                     <template v-for="item in items">
                         <div class="election" v-bind:class="{ 'right' : $index % 2 != 0  }">
                             <img src="{{ item.url }}" @click="showItem( item )">
-                            <div>{{ item.text }} <input type="checkbox" @click="checkItem( item ,this )" value="{{ item.id }}" v-el:checkel{{item.id}} v2-model="checked2"  lazy></div>
+                            <div>{{ item.text }} <input type="checkbox" @click="checkItem( item )" value="{{ item.id }}" id="{{ 'item_'+item.id }}" v-model="checked"  lazy></div>
                         </div>
                     </template>
 
@@ -53,7 +53,7 @@
             </div>
         </template>
 
-        <div class="alert" v-show="showDetail">
+        <div class="alert" v-show="showDetail" style="display: none">
             <div class="bg"></div>
 
             <div class="center">
@@ -96,23 +96,18 @@
             },
             methods:{
                 /*页面操作函数*/
-                checkItem:function ( item  ,ele ) {  //点中某个选项
-                    this.checkEle.push( ele );
-
-                    //event.preventDefault();
-
-                    /*
-                    console.log('item ' + item.id );
-                    console.log('checked length ' + this.checked.length  );
-                    if( this.checked.length > this.selectCount ){
-                        this.checked.splice( 0 ,1 );
-                    }else{
-                        //this.checked.push( item.id );
+                checkItem:function ( item  ) {  //点中某个选项
+                    var count = 0 ;
+                    for( var i = 0 ; i < this.items.length ; i++){
+                        var ele = this.items[i];
+                        if(  document.getElementById('item_' + ele.id).checked ){
+                            count ++ ;
+                        }
                     }
-                    //alert(this.checked.length  );
-                    console.log( this.checked );
-*/
-                    //
+                    if( count > this.selectCount ) {
+                        alert('最多只能选择 ' + this.selectCount + '项 ');
+                        event.preventDefault();
+                    }
                 },
                 showItem:function( item ){//显示候选人详情
                     if( item.refer_type != 1)return ;
@@ -153,108 +148,23 @@
                 doVote:function(){//进行投票
                     if(this.checked.length == 0 ) {
                         alert('请选择后再提交');
+                        return ;
                     }
                     var voteCallback = function (rsp) {
-                        alert(JSON.stringify(rsp.data));
+                        //alert(JSON.stringify(rsp.data));
+                        Site.goto('result.html?id=' + getUrlParam('id')+'&type=' + getUrlParam('type') );
                     }
                     var url = '/v1/mobile/option';
                     var ids = this.checked[0];//.id;
-                    for(var i =1;i< this.checked.length -1; i++){
+                    for(var i =1;i< this.checked.length; i++){
                         ids += ',' + this.checked[i];//.id ;
                     }
                     ids.substring( 0 , ids.length - 1 );
-
                     Site.post( url , {ids : ids , user_id :getUrlParam('userId') , round_id:this.items[0].round_id } , voteCallback , this.loadDataError );
                 }
             }
         });
-        /**
-{
-  "code": 0,
-  "data": [
-    {
-      "id": 1,
-      "text": "选项AAA",
-      "url": "xxasda.jpg",
-      "vote_id": 2,
-      "admin_id": 1,
-      "round_id": 1,
-      "sub_id": 1,
-      "refer_type": 1,
-      "refer_user": {
-        "id": 3,
-        "name": "詹学建11",
-        "head_image": "",
-        "pid": "sbgyr8",
-        "sex": 1,
-        "status": 0,
-        "mobile": "999999999",
-        "detail": "这描述来着",
-        "id_card_number": "",
-        "admin_id": 0,
-        "branch_ids": null,
-        "create_time": "0001-01-01T00:00:00Z"
-      },
-      "count": 0,
-      "create_time": "2016-10-15T17:12:54+08:00"
-    },
-    {
-      "id": 3,
-      "text": "选项BBB",
-      "url": "xxasda.jpg",
-      "vote_id": 2,
-      "admin_id": 1,
-      "round_id": 1,
-      "sub_id": 1,
-      "refer_type": 0,
-      "refer_user": {
-        "id": 0,
-        "name": "",
-        "head_image": "",
-        "pid": "",
-        "sex": 0,
-        "status": 0,
-        "mobile": "",
-        "detail": "",
-        "id_card_number": "",
-        "admin_id": 0,
-        "branch_ids": null,
-        "create_time": "0001-01-01T00:00:00Z"
-      },
-      "count": 0,
-      "create_time": "2016-10-15T17:13:04+08:00"
-    },
-    {
-      "id": 4,
-      "text": "选项CCCC",
-      "url": "xxasda.jpg",
-      "vote_id": 2,
-      "admin_id": 1,
-      "round_id": 1,
-      "sub_id": 1,
-      "refer_type": 0,
-      "refer_user": {
-        "id": 0,
-        "name": "",
-        "head_image": "",
-        "pid": "",
-        "sex": 0,
-        "status": 0,
-        "mobile": "",
-        "detail": "",
-        "id_card_number": "",
-        "admin_id": 0,
-        "branch_ids": null,
-        "create_time": "0001-01-01T00:00:00Z"
-      },
-      "count": 0,
-      "create_time": "2016-10-15T17:13:09+08:00"
-    }
-  ],
-  "msg": "",
-  "per_num": 3
-}
-         */
+
     </script>
 </body>
 </html>
