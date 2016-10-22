@@ -58,6 +58,8 @@
         var vue = new Vue({
             el: '.swiper-wrapper',
             data: {
+                longitude:'',
+                latitude:'',
                 parentMessage: 'Parent',
                 items: [
                     /*{
@@ -100,6 +102,8 @@
                 },
                 loadData:function(){//获取投票数据
                     Site.get( '/v1/mobile/vote?user_id='+ getUrlParam('userId') ,this.loadDataSuccess , this.loadDataError );
+
+
 //                    this.$http.get( server + '/v1/mobile/vote?user_id='+ getUrlParam('userId') , {'emulateJSON':true,'headers':{'token':getUrlParam('userToken')}}).then( this.loadDataSuccess ,this.loadDataError );
                 },
                 loadDataSuccess:function(response){
@@ -122,7 +126,7 @@
                         }
                     }
 
-                    console.log( JSON.stringify( this.items ) );
+                    //console.log( JSON.stringify( this.items ) );
 
                     this.$nextTick(function () {
                         // `this` 绑定到当前实例
@@ -133,6 +137,7 @@
                 loadDataError:function( response){
                     console.log(response);
                     alert('请求失败，请重试');
+                    if( android ) android.toast('请求失败，请重试');
                 },
                 checkSign:function ( item ) {//检查投票状态
                     var url = "/v1/mobile/vote/" + item.id + "/status?user_id="+ getUrlParam('userId') ;
@@ -171,7 +176,7 @@
                         vue.goVote(item);
                     }
                     var checkUrl = "/v1/mobile/check/" + checkId ;
-                    Site.post( checkUrl , {user_id:getUrlParam('userId') , latitude:22.540780 , longitude:113.934600 } , checkCallback , this.loadDataError)
+                    Site.post( checkUrl , {user_id:getUrlParam('userId') , latitude:vue.latitude , longitude:vue.longitude } , checkCallback , this.loadDataError)
                 },
                 goVote:function( item ){//前往投票页面
                     Site.goto( 'vote.html?id=' + item.id +"&type=" + item.type );
@@ -179,6 +184,20 @@
             }
         });
 
+        //native调用
+        function setLocation(data) {
+            data = JSON.parse(data);
+            vue.longitude  = data["longitude"];
+            vue.latitude = data["latitude"];
+            //if( android ) android.toast('get location success ' + vue.longitude);
+            /*if( android )
+                android.info("setContent: " + data);*/
+
+            //vue.login();
+            //enablePage();
+        }
+
+        if( android )android.getLocation();
         //vue.loadData();
     </script>
 </body>

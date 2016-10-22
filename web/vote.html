@@ -129,10 +129,9 @@
                 },
                 loadData:function(){//读取页面数据
                     this.type = getUrlParam('type') == '1' ? 'election' : 'vote';
-
                     var callback = function(rsp){
                         if( rsp.data.code ==0 ){
-                            this.selectCount = rsp.data.per_num;
+                            vue.selectCount = rsp.data.per_num;
                             for(var i = 0 ; i < rsp.data.data.length ; i++){
                                 var item = rsp.data.data[i];
                                 item.url = "/static/imgs/toupiao-bg.jpg" ;
@@ -148,6 +147,7 @@
                 doVote:function(){//进行投票
                     if(this.checked.length == 0 ) {
                         alert('请选择后再提交');
+                        if( android ) android.toast('请选择后再提交');
                         return ;
                     }
                     var voteCallback = function (rsp) {

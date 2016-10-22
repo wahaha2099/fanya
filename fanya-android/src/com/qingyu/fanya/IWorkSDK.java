@@ -28,9 +28,8 @@ public class IWorkSDK {
 		ssoAgent.initSSOAgent(new SSOStatusListener() {
 			@Override
 			public void finishCallBack(int resultCode, String resultMessage) {
-				Toast.makeText(activity ,
-						resultCode + "," + resultMessage,
-						Toast.LENGTH_SHORT).show();
+				//
+				if( resultCode != 0 )Toast.makeText(activity ,"登录失败，请重试："+resultCode + "," + resultMessage,	Toast.LENGTH_SHORT).show();
 				Log.e("SDK", resultCode +" "+ resultMessage);
 				if (resultCode == 0) {
 					getToken();

@@ -7,17 +7,27 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
 import com.qingyu.fanya.IWorkSDK.LoginCallback;
+import com.qingyu.fanya.webview.LocationSDK;
+import com.qingyu.fanya.webview.LocationSDK.LocationCallback;
 import com.qingyu.fanya.webview.WebActivity;
 
-
+/**
+ * 嵌入webview的activity
+ * @author admin
+ */
 public class LoginActivity extends WebActivity {
 
+	LocationSDK sdk = new LocationSDK();
+	String longitude ;
+	String latitude;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +37,20 @@ public class LoginActivity extends WebActivity {
 		setUrl("http://192.168.1.107/");
 		show();
 		
+		getLocation();
 		sdkLogin();
+	}
+	
+	public void getLocation(){
+		
+		LocationCallback callback = new LocationCallback(){
+			@Override
+			public void callback(String longitude, String latitude) {
+				Log.i("LoginActivity", " longitude = " + longitude );
+				LoginActivity.this.longitude = longitude;
+				LoginActivity.this.latitude = latitude;
+			}};
+		sdk.getLocation(this, callback);
 	}
 	
 	public void sdkLogin(){
@@ -40,8 +63,9 @@ public class LoginActivity extends WebActivity {
 	}
 	
 	public JSObject getJSObject() {
-		JoinJSObject json = new JoinJSObject();
+		LoginJSObject json = new LoginJSObject();
 		json.init(getApplicationContext());
+		json.setActivity(this);
 		return json;
 	}
 	
@@ -65,15 +89,32 @@ public class LoginActivity extends WebActivity {
 		call("setContent", obj);
 	}
 
+	public void sendLocationToPage(){
+		HashMap<String, Object> hash = new HashMap<String, Object>();
+		hash.put("longitude", longitude);
+		hash.put("latitude", latitude );
+		JSONObject obj = new JSONObject(hash);
+		call("setLocation", obj);
+	}
+	
 	public void hide() {
 		call("resetControl");
 	}
 
-	static class JoinJSObject extends WebActivity.JSObject {
-		private QingyuSDK.LoginCallback callback;
+	/**
+	 * activity和webview通信的js对象
+	 * @author admin
+	 */
+	static class LoginJSObject extends WebActivity.JSObject {
 
+		LoginActivity activity ;
+		
 		@JavascriptInterface  
 		public String toString() { return "android"; }  
+		
+		public void setActivity( LoginActivity activity ){
+			this.activity = activity;
+		};
 		 
 		@JavascriptInterface  
 		protected void onMessage(int method, String str) {
@@ -82,55 +123,22 @@ public class LoginActivity extends WebActivity {
 			Utils.info("join callback " + str);
 
 			switch (method) {
-			case 1:
-				QingyuSDK.hideJoin();
-				if (Utils.getAccountCount(this.context) > 0) {
-//					QingyuSDK.showSelect(this.callback);
-				} else
-					QingyuSDK.showLogin(this.callback);
+			case 1://1 获取 经纬度
+				if(activity != null)
+					activity.sendLocationToPage();
 				break;
-			case 2:
+			case 2://2发送消息
 				try {
-					// {"code":"0000","message":"berhasil","returnObj":{"bbsData":null,"newestServerNo":null,"userName":"xx12345g"}}
-
+					//发送消息{"message":"berhasil"}
 					JSONObject objRs = new JSONObject(str);
-					if (!"0000".equalsIgnoreCase(objRs.getString("code"))) {
-						String err = objRs.getString("message");
-						Utils.error(err);
-						Toast.makeText(this.context, "注册失败!", Toast.LENGTH_LONG).show();
-						
-						this.callback.onError(err);
-					} else {
-						JSONObject obj = (JSONObject) objRs.get("returnObj");
-						JSONArray list = Utils.getAccountList(this.context);
-						JSONArray clone = new JSONArray();
-						clone.put(obj);
-						for (int i = 0; i < list.length(); i++) {
-							if (i >= 2)
-								break;
-							JSONObject child = list.getJSONObject(i);
-							if (!child.get("userId").equals(obj.get("userId"))) {
-								clone.put(child);
-							}
-						}
-
-						Toast.makeText(this.context, "注册成功", Toast.LENGTH_LONG).show();
-						Utils.saveAccoutList(this.context, clone);
-						QingyuSDK.hideJoin();
-//						QingyuSDK.showSelect(this.callback);
+					
+					if( objRs.getString("message") != null ){
+						Toast.makeText(this.context, objRs.getString("message"), Toast.LENGTH_LONG).show();
 					}
 				} catch (JSONException e) {
-					e.printStackTrace();
+					Log.e("LoginActivity", "调用失败");
 				}
 			}
-		}
-
-//		public JoinJSObject(Context context) {
-//			super(context);
-//		}
-
-		public void setCallback(QingyuSDK.LoginCallback callback) {
-			this.callback = callback;
 		}
 	}
 }

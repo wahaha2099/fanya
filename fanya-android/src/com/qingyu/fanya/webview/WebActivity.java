@@ -148,33 +148,45 @@ public class WebActivity extends Activity{
 		}
 
 		@SuppressLint({ "JavascriptInterface" })
+		@JavascriptInterface  
 		public void debug(String msg) {
 			sendMessage(1002, msg);
 		}
 
 		@SuppressLint({ "JavascriptInterface" })
+		@JavascriptInterface  
 		public void error(String msg) {
 			sendMessage(1003, msg);
 		}
 
 		@SuppressLint({ "JavascriptInterface" })
+		@JavascriptInterface  
 		public void warn(String msg) {
 			sendMessage(1003, msg);
 		}
 
 		@SuppressLint({ "JavascriptInterface" })
+		@JavascriptInterface  
 		public void toast(String msg) {
 			sendMessage(1005, msg);
 		}
 
 		@SuppressLint({ "JavascriptInterface" })
+		@JavascriptInterface  
 		public void showWait() {
 			sendMessage(1006);
 		}
 
 		@SuppressLint({ "JavascriptInterface" })
+		@JavascriptInterface  
 		public void hideWait() {
 			sendMessage(1007);
+		}
+		
+		@SuppressLint({ "JavascriptInterface" })
+		@JavascriptInterface  
+		public void getLocation(){
+			sendMessage(1);
 		}
 
 		public void sendMessage(int type, Object obj) {
