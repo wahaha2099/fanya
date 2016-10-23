@@ -62,6 +62,15 @@ public class LoginActivity extends WebActivity {
 		IWorkSDK.instance.login(this);
 	}
 	
+	public void nativeLogin(){
+		webview.post(new Runnable(){
+
+			@Override
+			public void run() {
+				sdkLogin();
+			}});
+	}
+	
 	public JSObject getJSObject() {
 		LoginJSObject json = new LoginJSObject();
 		json.init(getApplicationContext());
@@ -117,6 +126,11 @@ public class LoginActivity extends WebActivity {
 		};
 		 
 		@JavascriptInterface  
+		public void nativeLogin(){
+			activity.nativeLogin();
+		}
+		
+		@JavascriptInterface  
 		protected void onMessage(int method, String str) {
 			super.onMessage(method, str);
 
@@ -127,7 +141,7 @@ public class LoginActivity extends WebActivity {
 				if(activity != null)
 					activity.sendLocationToPage();
 				break;
-			case 2://2发送消息
+			case 3://2发送消息
 				try {
 					//发送消息{"message":"berhasil"}
 					JSONObject objRs = new JSONObject(str);
@@ -138,6 +152,7 @@ public class LoginActivity extends WebActivity {
 				} catch (JSONException e) {
 					Log.e("LoginActivity", "调用失败");
 				}
+				break;
 			}
 		}
 	}
