@@ -16,11 +16,32 @@
 
     <div class="head">
         <img src="/static/imgs/head.jpg" width="100%">
-        <div class="title"><img  src="/static/imgs/gezi.jpg"/><b>普通投票</b><img src="/static/imgs/gezi.jpg" /></div>
+        <div class="titleParent"><div class="title"><img  src="/static/imgs/gezi.jpg"/><b>{{typeTitle + '票数'}}</b><img src="/static/imgs/gezi.jpg" /></div></div>
     </div>
 
     <div class="content">
 
+        <template v-if="type == 'noImage'">
+            <!--<div class = "tips">
+                <img src="/static/imgs/tips.png"><span class="tips-head">说明:</span>
+                <div class="tips-info">因为12月需要组织一次党员生活会，看看大家对党员生活会的举办形式有什么意见，投票选择，没人最多选择2项</div>
+            </div>-->
+
+            <div class="select">
+                <div class="items">
+                    <template v-for="item in items">
+                        <div class="ul  " v-bind:class="{ 'ul2' : $index % 2 != 0  }">
+                            <div class="election" style="width: 90%;padding: 0 10px;">
+                                <div>{{ item.text }} <span class="rs"><img class='icon'src="/static/imgs/good.png"> {{ item.count }} 票</span></div>
+                            </div>
+                        </div>
+                    </template>
+
+                </div>
+            </div>
+        </template>
+
+        <template v-else>
             <div class="election-div">
                 <div class="items">
                     <template v-for="item in items">
@@ -32,6 +53,9 @@
 
                 </div>
             </div>
+        </template>
+
+
 
         <div class="alert" v-show="showDetail" style="display: none">
             <div class="bg"></div>
@@ -64,6 +88,7 @@
             data: {
                 parentMessage: 'Parent',
                 type:'vote1',
+                typeTitle:'',
                 items: [],
                 checked:[],//已选列表
                 detail:null,
@@ -90,16 +115,27 @@
                     alert('请求失败，请重试');
                 },
                 loadData:function(){//读取页面数据
-                    this.type = getUrlParam('type') == '1' ? 'election' : 'vote';
+                    this.type = getUrlParam('type') == '1' ? 'showImage' : 'noImage';
+                    this.typeTitle = getUrlParam('type') == '1' ? '选举' : '投票';
 
                     var callback = function(rsp){
                         if( rsp.data.code ==0 ){
-                            this.selectCount = rsp.data.per_num;
+                            vue.selectCount = rsp.data.per_num;
+
                             for(var i = 0 ; i < rsp.data.data.length ; i++){
                                 var item = rsp.data.data[i];
+                                if( !item.url || item.url.length == 0 ){
+                                    vue.type = 'noImage';
+                                }
                                 item.url = "/static/imgs/toupiao-bg.jpg" ;
-                                if(item.refer_type == 1)
+
+                                if(item.refer_type == 1){
                                     item.refer_user.head_image = "/static/imgs/toupiao-bg.jpg" ;
+                                    vue.type = 'showImage';
+                                    item.url =  item.refer_user.head_image;
+                                    item.text = item.refer_user.name;
+                                }
+
                                 vue.items.push( item );
                             }
                         }

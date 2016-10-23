@@ -4,12 +4,32 @@
     <meta charset="UTF-8">
     <title>登录</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <style>
+
+        body {
+            background: #f5f5f5;
+            font-family: "微软雅黑","Microsoft Yahei",arial,sans-serif;
+            font-size: 14px;
+            color:#000;
+            margin: 0px auto;
+            padding: 0;
+        }
+        .content{
+            margin: auto;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body id="body">
 
-<input name="pid"  v-model="pid"><button @click="login" >登录</button>
 
+    <img src="/static/imgs/head.jpg" width="100%">
+
+    <div class="content">
+        登录中....<br><br>
+        <input name="pid" type="hidden" v-model="pid"><button @click="login" >重新登录</button>
+    </div>
 
 </body>
 
@@ -40,6 +60,9 @@
             },
             error:function( response){
                 console.log(response);
+
+                alert('登录失败，请重试');
+                if( android ) android.toast('登录失败，请重试');
             }
         }
     });

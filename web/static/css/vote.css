@@ -8,10 +8,13 @@ body {
     padding: 0;
 }
 /* 头部 */
+.titleParent{
+    width: 100%;
+    text-align: center;
+}
 .title{
-    width: 200px;
     font-size:20px;
-    margin: auto;
+    display:inline-block;
 }
 
 
@@ -58,7 +61,7 @@ body {
 
 }
 
-.select span{
+.select span , .election-div span  {
     color:#e25252 ;
     font-size: 10px;
 }
@@ -82,7 +85,7 @@ body {
     background-size: 100%;
     width: 20px;
     height: 20px;
-    margin: 10px auto ;
+    margin: 10px;
     vertical-align: middle;
 }
 .select input[type=checkbox]:checked {
@@ -123,7 +126,7 @@ body {
 /* 选举*/
 .election-div{
     width:320px;
-    margin: 1px auto 20px auto;
+    margin: 10px auto 20px auto;
 }
 .election{
     float: left;
