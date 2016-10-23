@@ -28,7 +28,7 @@
 
     <div class="content">
         登录中....<br><br>
-        <input name="pid" type="hidden" v-model="pid"><button @click="login" >重新登录</button>
+        <input name="pid" type="hidden" v-model="pid"><button @click="nativeLogin" >重新登录</button>
     </div>
 
 </body>
@@ -47,6 +47,9 @@
             userId:''
         },
         methods:{
+            nativeLogin:function(){//调用安卓登录
+                doNativeLogin();
+            },
             login:function () {
                 this.$http.post( server + '/v1/not_auth/mobile' , {pid:this.pid} , {'emulateJSON':true}).then( this.success ,this.error );
             },
@@ -68,6 +71,16 @@
     });
 </script>
 <script>
+    function doNativeLogin(){
+        try{
+            if( android ){
+                android.nativeLogin();
+            }
+        }catch(e){
+            vue.login();   //安卓不存在，页面调用
+        }
+    }
+
     //setContent( JSON.stringify({'loginname':'123' , 'token':123}));
     function setContent(data) {
         data = JSON.parse(data);
