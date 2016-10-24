@@ -147,13 +147,16 @@
                             // 1表示未签到、2表示签到成功、3表示可以投票、4投票成功
                             var status = rsp.data.data;
 
-                            //test
-                            vue.goVote( item );
-
                             if( status == 1 ) {
                                 vue.getCheckDetail(item);
+                            }else if ( status == 2){
+                                vue.tipsNotBegin();
                             }else if ( status == 3){
                                 vue.goVote( item );
+                            }else if ( status == 4 ){
+                                vue.goVoteResult( item );
+                            }else if ( status == 5 ){
+                                vue.goVoteResult( item );
                             }
                         }
                     }
@@ -180,6 +183,13 @@
                 },
                 goVote:function( item ){//前往投票页面
                     Site.goto( 'vote.html?id=' + item.id +"&type=" + item.type );
+                },
+                goVoteResult:function( item ){//前往投票结果页面
+                    Site.goto( 'result.html?id=' + item.id +"&type=" + item.type );
+                },
+                tipsNotBegin(){
+                    alert('您已签到成功，还未开始投票');
+                    if(android ) android.toast('您已签到成功，还未开始投票');
                 }
             }
         });

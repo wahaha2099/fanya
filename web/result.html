@@ -140,7 +140,7 @@
                             }
                         }
                     }
-                    var url = '/v1/mobile/vote/'+ getUrlParam('id')+'/last/result';
+                    var url = '/v1/mobile/vote/'+ getUrlParam('id')+'/last/result' + '?user_id=' + getUrlParam('userId');
                     Site.get( url  , callback , this.loadDataError );
                 },
                 submit:function () {
