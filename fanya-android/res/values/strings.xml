@@ -1,25 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-
-    <string name="app_name">DemoArkMDMSDK</string>
+    <string name="app_name">泛亚投票</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_after_login">AfterLoginActivity</string>
     <string name="pushmail_notifytime">收取于</string>
-
-  <!-- MDM -->  
+    <!-- MDM -->
     <string name="mdm_start_toast">启用了设备管理策略</string>
     <string name="mdm_stop_toast">试图停用策略</string>
     <string name="mdm_stoped_toast">停用了设备管理策略</string>
-    
     <string name="mdm_password_failed">密码尝试失败</string>
     <string name="mdm_password_success">密码尝试成功</string>
     <string name="mdm_password_outdated">密码过期</string>
-
     <string name="mdm_sumsungsafe_select_toast">请选择确认，否则三星safe功能无法使用</string>
     <string name="mdm_safe_apprestrict_success">应用使用限制设置完成</string>
     <string name="mdm_safe_apprestrict_failed">应用使用限制设置失败</string>
-    
     <string name="mdm_pea_password_inconformity">两次输入的密码不一致</string>
     <string name="mdm_pea_password_lengthwrong">密码长度不正确</string>
     <string name="mdm_pea_password_numonly">密码必须是数字</string>
@@ -27,22 +22,19 @@
     <string name="mdm_pea_password_num_letter_symbol">密码必须是数字,字母和特殊字符的组合</string>
     <string name="mdm_pea_password_set_success">密码设置成功</string>
     <string name="mdm_pea_password_set_failed">密码设置不成功</string>
-    
     <string name="mdm_pea_password_re_head_lengthwrong">密码长度至少为</string>
     <string name="mdm_pea_password_re_back_numonly">,且必须是数字</string>
     <string name="mdm_pea_password_re_back_num_letter">,且必须是数字和字母的组合</string>
     <string name="mdm_pea_password_re_back_mum_letter_symbol">,且必须是复杂密码</string>
-    
-    <!-- MCM --> 
+    <!-- MCM -->
     <string name="mcmsdk_upload_success">上传成功</string>
     <string name="mcmsdk_upload_doc_not_exist">文件不存在</string>
     <string name="mcmsdk_upload_failed">上传失败</string>
     <string name="mcmsdk_upload_uploading">上传中</string>
-    
     <!-- SSO -->
     <string name="sso_connect_ark_failed">连接验证服务失败！</string>
     <string name="sso_agent_uninit">未初始化或初始化失败！</string>
-	<string name="sso_agent_get_register_failed">获取信息失败！</string>
+    <string name="sso_agent_get_register_failed">获取信息失败！</string>
     <string name="sso_agent_decrypt_register_failed">解码信息内容失败！</string>
     <string name="sso_agent_parse_register_failed">解析信息内容失败！</string>
     <string name="sso_agent_get_setting_failed">获取设置失败！</string>
@@ -50,7 +42,6 @@
     <string name="sso_agent_network_failed">无法连接服务器！</string>
     <string name="sso_agent_readfile_timeout">读取配置超时！</string>
     <string name="sso_agent_decrypt_key_null">解码信息为空！</string>
-    
     <!-- Gesture -->
     <string name="mobark_draw_pattern_lock">绘制解锁图案</string>
     <string name="more_watch_error">您已连续5次输错手势，手势解锁已关闭，请重新登录。</string>
@@ -59,10 +50,9 @@
     <string name="item_ok">确定</string>
     <string name="gesture_password_wrong">错误次数达到5次</string>
     <string name="gesture_password_empty">未设置手势密码</string>
-    
     <!-- new -->
     <string name="sso_ark_not_installed">未安装主客户端！</string>
-    <string name="sso_network_not_available">网络不可用！</string> 
+    <string name="sso_network_not_available">网络不可用！</string>
     <string name="sso_file_io_error">操作文件失败！</string>
     <string name="sso_wrong_password">密码已失效！</string>
 </resources>

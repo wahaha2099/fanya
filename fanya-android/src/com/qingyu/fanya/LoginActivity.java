@@ -34,7 +34,8 @@ public class LoginActivity extends WebActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-		setUrl("http://192.168.1.107/");
+		setUrl("http://120.26.55.126/");
+		//setUrl("http://192.168.1.35/");
 		show();
 		
 		getLocation();
