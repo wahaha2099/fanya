@@ -195,7 +195,7 @@
                 goVoteResult:function( item ){//前往投票结果页面
                     Site.goto( 'result.html?id=' + item.id +"&type=" + item.type );
                 },
-                tipsNotBegin(){
+                tipsNotBegin:function(){
                     alert('您已签到成功，还未开始投票');
                     if(android ) android.toast('您已签到成功，还未开始投票');
                 }
@@ -215,7 +215,7 @@
             //enablePage();
         }
 
-        if( android )android.getLocation();
+        if( android ){android.getLocation();}
         //vue.loadData();
     </script>
 </body>
