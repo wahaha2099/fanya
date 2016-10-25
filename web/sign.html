@@ -176,7 +176,15 @@
                 doCheck:function ( item , checkId) {//进行签到
                     var checkCallback = function(rsp){
                         console.log(JSON.stringify(rsp.data));
-                        vue.goVote(item);
+                        if( rsp.code == 0 ){
+                            alert('签到成功');
+                            if(android ) android.toast('签到成功');
+                            vue.checkSign( item );
+                        }else{
+                            alert('签到失败，请重试');
+                            if(android ) android.toast('签到失败，请重试');
+                        }
+                        //vue.goVote(item);
                     }
                     var checkUrl = "/v1/mobile/check/" + checkId ;
                     Site.post( checkUrl , {user_id:getUrlParam('userId') , latitude:vue.latitude , longitude:vue.longitude } , checkCallback , this.loadDataError)
