@@ -85,23 +85,34 @@ body {
     width: 62px;
 
 }
+
 .info{
+    background:rgba(0,0,0,0.3);
     position: absolute;
-    bottom:87px;
-    padding-left: 15px;
+    bottom:87px;/**/
+    /*padding-left: 15px;*/
     font-size: 14px;
     text-align: left;
     height: 65px;
+    width: 100%;
 }
 .topic{
+    line-height: 28px;
     font-size: 17px;
+    margin-left: 15px;
+}
+.time{
+    margin-left: 15px;
 }
 
 .action{
     position: absolute;
     bottom:51px;
     text-align: center;
+    line-height: 46px;
     width: 100%;
     font-size: 22px;
+    height: 46px;
+    background-color: #f0a42b;
 }
 /*选项*/

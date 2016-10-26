@@ -29,8 +29,8 @@
                     <div class="swiper-slide" >
                         <div class="item" style="background-image: url({{item.background}})" >
 
-                            <img src="/static/imgs/type.jpg" v-if="item.type==2" />
-                            <img src="/static/imgs/type2.jpg" v-if="item.type==1" />
+                            <img src="/static/imgs/type.png" v-if="item.type==2" />
+                            <img src="/static/imgs/type2.png" v-if="item.type==1" />
 
                             <div class="info">
                                 <div class="topic"><b>{{ item.title }}</b></div>
@@ -113,7 +113,7 @@
                         for(var i = 0 ; i < response.data.data.length ; i++){
                             var item = response.data.data[i];
 
-                            item.background = "/static/imgs/toupiao-bg.jpg" ;
+                            item.background = Site.imgUrl( item.background );
                             var startTime = Date.parse(item.start_time);
                             var endTime = Date.parse(item.end_time);
                             var now = new Date().getTime();
