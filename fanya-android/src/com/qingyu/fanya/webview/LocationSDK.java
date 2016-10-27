@@ -14,6 +14,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
+//AK    29b592f07451e65b2c7f6b0611882599
 public class LocationSDK {
 	  
     public  LocationManager lm;  
@@ -45,20 +46,19 @@ public class LocationSDK {
             return;  
         }  */
         
-       /* if(!lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){  
-            Toast.makeText(activity, "请开启GPS导航...", Toast.LENGTH_SHORT).show();  
+        if(!lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){  
+            Toast.makeText(activity, "请开启定位服务", Toast.LENGTH_SHORT).show();  
             //返回开启GPS导航设置界面  
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);     
             activity.startActivityForResult(intent,0);   
-            return;  
-        }  */
+        } /* */
           
         //为获取地理位置信息时设置查询条件  
         String bestProvider = lm.getBestProvider(getCriteria(), true);  
         //获取位置信息  
         //如果不设置查询要求，getLastKnownLocation方法传人的参数为LocationManager.GPS_PROVIDER  
-        Location location= lm.getLastKnownLocation(bestProvider);  
-//        Location location= lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);   
+ //       Location location= lm.getLastKnownLocation(bestProvider);  
+        Location location= lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);   
         successCallback(location);  
         //监听状态  
 //        lm.addGpsStatusListener(listener);  

@@ -77,7 +77,9 @@
     function doNativeLogin(){
         try{
             if( android ){
+                showOnce = false;
                 android.nativeLogin();
+
             }
         }catch(e){
             vue.login();   //安卓不存在，页面调用
@@ -93,13 +95,35 @@
         //alert(token );
         vue.pid = loginname ;
         vue.iworkToken = token ;
-        
-        vue.login();
+
+        if( android ){android.getLocation();}
     }
 
     function goIndex( ){
         window.location.href = 'sign.html?userId=' + vue.userId +"&userToken=" + vue.userToken +"&iworkToken="+vue.iworkToken +"&pid=" + vue.pid ;
     }
+
+    var showOnce = false;
+    //native调用
+    function setLocation(data) {
+        data = JSON.parse(data);
+        vue.longitude  = data["longitude"];
+        vue.latitude = data["latitude"];
+        //if( android ) android.toast('get location success ' + vue.longitude);
+        /*if( android )
+         android.info("setContent: " + data);*/
+
+        if( !vue.longitude ){
+            if(!showOnce){
+                showOnce = true ;
+                alert('请先开启定位服务，再重试');
+                if( android ) android.toast('请先开启定位服务，再重试');
+            }
+        }else{
+            vue.login();
+        }
+    }
+
 
 </script>
 </html>

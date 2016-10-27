@@ -78,7 +78,7 @@
                 ]
             },
             ready:function () {
-                this.loadData();
+                //this.loadData();
             },
             methods:{
                 initSwiper:function(event){ //初始化轮播图
@@ -180,9 +180,12 @@
                             alert('签到成功');
                             if(android ) android.toast('签到成功');
                             vue.checkSign( item );
-                        }else{
-                            alert('签到失败，请重试');
-                            if(android ) android.toast('签到失败，请重试');
+                        }else{//-21 -22 -23
+                            var msg =  rsp.code== -21 ? "已经签到" : "签到还没开始";
+                            if(rsp.code == -23) msg = "签到失败，超过距离";
+
+                            alert( msg );
+                            if(android ) android.toast( msg );
                         }
                         //vue.goVote(item);
                     }
@@ -211,11 +214,11 @@
             /*if( android )
                 android.info("setContent: " + data);*/
 
-            //vue.login();
-            //enablePage();
+            vue.loadData();
         }
 
         if( android ){android.getLocation();}
+        else{ vue.loadData() ; }
         //vue.loadData();
     </script>
 </body>
