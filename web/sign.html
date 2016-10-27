@@ -217,8 +217,13 @@
             vue.loadData();
         }
 
-        if( android ){android.getLocation();}
-        else{ vue.loadData() ; }
+        try{
+            if( android ){android.getLocation();}
+            else{ vue.loadData() ; }
+        }catch (e){
+            vue.loadData() ;
+        }
+
         //vue.loadData();
     </script>
 </body>
