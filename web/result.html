@@ -128,9 +128,10 @@
                                     vue.type = 'noImage';
                                 }
                                 item.url = "/static/imgs/toupiao-bg.jpg" ;
-
+                                item.url = Site.imgUrl(item.url);
                                 if(item.refer_type == 1){
                                     item.refer_user.head_image = "/static/imgs/toupiao-bg.jpg" ;
+                                    item.refer_user.head_image = Site.imgUrl( item.refer_user.head_image );
                                     vue.type = 'showImage';
                                     item.url =  item.refer_user.head_image;
                                     item.text = item.refer_user.name;
