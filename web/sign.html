@@ -36,8 +36,8 @@
                 <!-- Slides -->
                 <template v-for="item in items">
                     <div class="swiper-slide" >
-                        <div class="item" style="background-image: url({{item.background}})" >
-
+                        <div class="item" style2="background-image: url({{item.background}})" >
+				<div style="width:100%;height:300px;background-size:100%;background-image: url( {{item.background}} )" >
                             <img src="/static/imgs/type.png" v-if="item.type==2" />
                             <img src="/static/imgs/type2.png" v-if="item.type==1" />
 
@@ -50,6 +50,7 @@
                             <div class="action" v-on:click="checkSign( item )" v-if="item.status==1"><b>我要参加</b></div>
                             <div class="action"  v-if="item.status==0"><b>未开始</b></div>
                             <div class="action"  v-if="item.status==2"><b>已过期</b></div>
+			</div>
                         </div>
                     </div>
                 </template>
@@ -179,20 +180,25 @@
                             // 1表示未签到、2表示签到成功、3表示可以投票、4投票成功
                             var checkId = rsp.data.data.id;
                             vue.doCheck( item , checkId );
-                        }
+                        }else{
+                            var msg =  rsp.data.code== -21 ?  "签到还没开始":"请求失败，错误码"+rsp.data.code;
+
+                            alert( msg );
+                            if(android ) android.toast( msg );
+			}
                     }
                     Site.get( url, statusCallback , this.loadDataError );
                 },
                 doCheck:function ( item , checkId) {//进行签到
                     var checkCallback = function(rsp){
-                        console.log(JSON.stringify(rsp.data));
-                        if( rsp.code == 0 ){
+                        if( rsp.data.code == 0 ){
                             alert('签到成功');
                             if(android ) android.toast('签到成功');
                             vue.checkSign( item );
                         }else{//-21 -22 -23
-                            var msg =  rsp.code== -21 ? "已经签到" : "签到还没开始";
-                            if(rsp.code == -23) msg = "签到失败，超过距离";
+                            var msg =  rsp.data.code== -21 ? "已经签到" : "签到还没开始";
+                            if(rsp.data.code == -23) msg = "签到失败，超过距离";
+                            if(rsp.data.code == -1) msg = "参数错误";
 
                             alert( msg );
                             if(android ) android.toast( msg );
@@ -209,8 +215,8 @@
                     Site.goto( 'result.html?id=' + item.id +"&type=" + item.type );
                 },
                 tipsNotBegin:function(){
-                    alert('您已签到成功，还未开始投票');
-                    if(android ) android.toast('您已签到成功，还未开始投票');
+                    alert('您已签到成功,投票活动尚未开始');
+                    if(android ) android.toast('您已签到成功,投票活动尚未开始');
                 },
                 refresh:function(){
                     //this.$els.refresh.rotate(90);

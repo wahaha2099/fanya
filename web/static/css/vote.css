@@ -7,6 +7,17 @@ body {
     margin: 0;
     padding: 0;
 }
+.drTransform {
+    transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    /* IE 9 */
+    -moz-transform: rotate(360deg);
+    /* Firefox */
+    -webkit-transform: rotate(360deg);
+    /* Safari 鍜� Chrome */
+    -o-transform: rotate(360deg);
+    transition-duration: 0.5s;
+}
 /* 头部 */
 .titleParent{
     width: 100%;

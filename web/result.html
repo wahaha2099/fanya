@@ -47,7 +47,10 @@
                     <template v-for="item in items">
                         <div class="election" v-bind:class="{ 'right' : $index % 2 != 0  }">
                             <img src="{{ item.url }}" @click="showItem( item )">
-                            <div>{{ item.text }} <span class="rs"><img class='icon'src="/static/imgs/good.png"> {{ item.count }} 票</span></div>
+                            <div>
+				<div style="width:70%;overflow:hidden;display:inline-block;">
+				{{ item.text }}</div>
+				 <span class="rs"><img class='icon'src="/static/imgs/good.png"> {{ item.count }} 票</span></div>
                         </div>
                     </template>
 
@@ -78,6 +81,17 @@
         <div class="submit">
             <div class="button" @click="submit" ><img src="/static/imgs/back.png" width="20px">返 回</div>
         </div>
+
+<div @click='refresh' style="width: 32.0px; height: 32.0px; margin: 0 auto;bottom:10px;right: 5px;position: fixed;">
+            <svg style="width: 32.0px; height: 32.0px; margin: 0 auto;" class="{{svgClass}}">
+                <g class="transform-group">
+                    <g transform="translate(0, 28.0) scale(1, -1) scale(0.03125, 0.03125)">
+                        <path d="M815.296 114.528 960 326.304l-102.336 0c-13.632 207.232-185.728 371.392-396.416 371.392C241.6 697.696 64 519.648 64 299.936c0-219.52 178.048-397.632 397.696-397.632 98.496 0 188.416 36.032 257.92 95.424l-53.184 68.48C611.712 18.336 540.16-11.04 461.696-11.04c-171.84 0-311.104 139.328-311.104 310.976 0 171.904 139.328 311.168 311.104 311.168 162.88 0 295.936-125.376 309.312-284.8l-100.416 0L815.296 114.528 815.296 114.528z" fill="#737383"></path>
+                    </g>
+                </g>
+            </svg>
+        </div>
+
     </div>
 
     <script type="text/javascript" src="/static/js/vue.min.js"></script>
@@ -89,6 +103,7 @@
                 parentMessage: 'Parent',
                 type:'vote1',
                 typeTitle:'',
+		svgClass:'',
                 items: [],
                 checked:[],//已选列表
                 detail:null,
@@ -126,11 +141,12 @@
                                 var item = rsp.data.data[i];
                                 if( !item.url || item.url.length == 0 ){
                                     vue.type = 'noImage';
-                                }
-                                item.url = "/static/imgs/toupiao-bg.jpg" ;
-
+                                }else{
+				    vue.type = 'showImage';
+				}
+                                item.url = Site.imgUrl(item.url);
                                 if(item.refer_type == 1){
-                                    item.refer_user.head_image = "/static/imgs/toupiao-bg.jpg" ;
+                                    item.refer_user.head_image = Site.imgUrl( item.refer_user.head_image );
                                     vue.type = 'showImage';
                                     item.url =  item.refer_user.head_image;
                                     item.text = item.refer_user.name;
@@ -145,7 +161,11 @@
                 },
                 submit:function () {
                    Site.goto('sign.html');
-                }
+                },
+		refresh:function(){
+			this.svgClass='drTransform';
+			window.location.reload();
+		}
             }
         });
 
