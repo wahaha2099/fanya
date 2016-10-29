@@ -151,8 +151,9 @@
 
                                 item.url = Site.imgUrl(item.url);
 
-                                if(item.refer_type == 1){
+                                item.url = Site.imgUrl(item.url);
 
+                                if(item.refer_type == 1){
 
                                     item.refer_user.head_image = Site.imgUrl( item.refer_user.head_image );
 

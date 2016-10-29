@@ -141,11 +141,13 @@
                                 var item = rsp.data.data[i];
                                 if( !item.url || item.url.length == 0 ){
                                     vue.type = 'noImage';
+
                                 }else{
-				    vue.type = 'showImage';
-				}
+                                    vue.type = 'showImage';
+                                }
                                 item.url = Site.imgUrl(item.url);
                                 if(item.refer_type == 1){
+
                                     item.refer_user.head_image = Site.imgUrl( item.refer_user.head_image );
                                     vue.type = 'showImage';
                                     item.url =  item.refer_user.head_image;
