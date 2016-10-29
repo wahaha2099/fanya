@@ -220,7 +220,7 @@ body {
     margin: auto;
     horiz-align: center;
     position: absolute;
-    left:0; right:0; top:10%; /*bottom:0;*/
+    left:0; right:0; top:100px; /*bottom:0;*/
     background-color: white;
 }
 
