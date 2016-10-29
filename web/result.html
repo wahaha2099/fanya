@@ -164,10 +164,27 @@
                 submit:function () {
                    Site.goto('sign.html');
                 },
-		refresh:function(){
-			this.svgClass='drTransform';
-			window.location.reload();
-		}
+                refresh:function(){
+                    this.svgClass='drTransform';
+                    vue.checkSignStatus();
+                },
+                checkSignStatus:function ( ) {//检查投票状态
+                    var url = "/v1/mobile/vote/" + getUrlParam('id') + "/status?user_id="+ getUrlParam('userId') ;
+
+                    var statusCallback = function( rsp ){
+                        if( rsp.data.code == 0 ){
+                            // 1表示未签到、2表示签到成功、3表示可以投票、4投票成功
+                            var status = rsp.data.data;
+
+                            if ( status == 3){
+                                Site.goto( 'vote.html?id=' + getUrlParam('id') +"&type=" + getUrlParam('type') );
+                            }else{
+                                window.location.reload();
+                            }
+                        }
+                    }
+                    Site.get( url, statusCallback , this.loadDataError );
+                }
             }
         });
 
