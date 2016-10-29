@@ -48,7 +48,7 @@
                             <img src="{{ item.url }}" @click="showItem( item )">
                             <div>
 
-				<div style="width:80%;overflow:hidden;display:inline-block;">{{ item.text }}</div>
+				<div style="width:120px;overflow2:hidden;display:inline-block;">{{ item.text }}</div>
 				 <input type="checkbox" @click="checkItem( item )" value="{{ item.id }}" id="{{ 'item_'+item.id }}" v-model="checked"  lazy></div>
                         </div>
                     </template>
