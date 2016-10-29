@@ -143,9 +143,12 @@ body {
 }
 .election{
     float: left;
+    border: 1px solid #d5d1d1;
+    margin-top: 10px;
+    padding: 0px 5px;
 }
 .right{
-    margin-left: 35px;
+    margin-left: 10px;
 }
 .election img {
     margin-top: 15px;

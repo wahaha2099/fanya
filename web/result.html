@@ -46,7 +46,7 @@
                 <div class="items">
                     <template v-for="item in items">
                         <div class="election" v-bind:class="{ 'right' : $index % 2 != 0  }">
-                            <img src="{{ item.url }}" @click="showItem( item )">
+                            <img src="{{ item.url }}"  v-show="item.showImg" @click="showItem( item )">
                             <div>
 				<div style="width:100px;height2:38px;overflow2:hidden;display:inline-block;">
 				{{ item.text }}</div>
@@ -82,7 +82,7 @@
             <div class="button" @click="submit" ><img src="/static/imgs/back.png" width="20px">返 回</div>
         </div>
 
-<div @click='refresh' style="width: 32.0px; height: 32.0px; margin: 0 auto;bottom:10px;right: 5px;position: fixed;">
+        <div @click='refresh' style="width: 32.0px; height: 32.0px; margin: 0 auto;bottom:10px;right: 5px;position: fixed;">
             <svg style="width: 32.0px; height: 32.0px; margin: 0 auto;" class="{{svgClass}}">
                 <g class="transform-group">
                     <g transform="translate(0, 28.0) scale(1, -1) scale(0.03125, 0.03125)">
@@ -101,9 +101,9 @@
             el: '#body',
             data: {
                 parentMessage: 'Parent',
-                type:'vote1',
+                type:'showImage',
                 typeTitle:'',
-		svgClass:'',
+		        svgClass:'',
                 items: [],
                 checked:[],//已选列表
                 detail:null,
@@ -130,7 +130,7 @@
                     alert('请求失败，请重试');
                 },
                 loadData:function(){//读取页面数据
-                    this.type = getUrlParam('type') == '1' ? 'showImage' : 'noImage';
+                    //this.type = getUrlParam('type') == '1' ? 'showImage' : 'noImage';
                     this.typeTitle = getUrlParam('type') == '1' ? '选举' : '投票';
 
                     var callback = function(rsp){
@@ -140,16 +140,19 @@
                             for(var i = 0 ; i < rsp.data.data.length ; i++){
                                 var item = rsp.data.data[i];
                                 if( !item.url || item.url.length == 0 ){
-                                    vue.type = 'noImage';
+                                    item.showImg = false;
+                                    //vue.type = 'noImage';
 
                                 }else{
-                                    vue.type = 'showImage';
+                                    item.showImg = true;
+                                    //vue.type = 'showImage';
                                 }
                                 item.url = Site.imgUrl(item.url);
                                 if(item.refer_type == 1){
 
                                     item.refer_user.head_image = Site.imgUrl( item.refer_user.head_image );
-                                    vue.type = 'showImage';
+                                    item.showImg = true;
+                                    //vue.type = 'showImage';
                                     item.url =  item.refer_user.head_image;
                                     item.text = item.refer_user.name;
                                 }
