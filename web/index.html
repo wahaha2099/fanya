@@ -72,8 +72,6 @@
             }
         }
     });
-</script>
-<script>
     function doNativeLogin(){
         try{
             if( android ){
@@ -88,13 +86,17 @@
 
     //setContent( JSON.stringify({'loginname':'123' , 'token':123}));
     function setContent(data) {
+
         data = JSON.parse(data);
+
         var token  = data["token"];
         var loginname = data["loginname"];
 
-        //alert(token );
         vue.pid = loginname ;
         vue.iworkToken = token ;
+
+
+        //if( android ) android.toast('请先开启定位服务，再重试');
 
         if( android ){android.getLocation();}
     }
