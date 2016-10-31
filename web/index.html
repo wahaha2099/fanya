@@ -77,7 +77,6 @@
             if( android ){
                 showOnce = false;
                 android.nativeLogin();
-
             }
         }catch(e){
             vue.login();   //安卓不存在，页面调用
@@ -95,10 +94,12 @@
         vue.pid = loginname ;
         vue.iworkToken = token ;
 
-
+        if( !loginname || loginname.length == 0 ){
+            if( android ){android.toast("iwork登录失败，请先登录iwork");}
+        }else{
+            if( android ){android.getLocation();}
+        }
         //if( android ) android.toast('请先开启定位服务，再重试');
-
-        if( android ){android.getLocation();}
     }
 
     function goIndex( ){
