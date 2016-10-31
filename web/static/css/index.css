@@ -38,6 +38,7 @@ body {
 /* 轮播图*/
 .content{
     margin-top: 30px;
+    position: relative;
 }
 .swiper-container {
     width: 100%;
