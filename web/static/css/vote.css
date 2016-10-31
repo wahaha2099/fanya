@@ -145,6 +145,7 @@ body {
     float: left;
     border: 1px solid #d5d1d1;
     margin-top: 10px;
+    margin-left: 3px;
     padding: 0px 5px;
 }
 .right{
