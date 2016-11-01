@@ -204,7 +204,7 @@
                             if(rsp.data.code == -1) msg = "参数错误" + rsp.data.msg;
 
                             alert( msg );
-                            if(android ) android.toast( msg );
+                            if(android ) android.toast( rsp.data.code +"-"+msg );
                         }
                         //vue.goVote(item);
                     }
@@ -254,6 +254,9 @@
             }
         }
 
+        if (android) {
+            android.getLocation();
+        }
         if( getUrlParam("test"))vue.loadData();
         //vue.loadData();
     </script>
