@@ -128,6 +128,7 @@
                             var item = response.data.data[i];
 
                             item.background = Site.imgUrl( item.background );
+                            if( !item.background) item.background = '/static/imgs/toupiao-bg.jpg';
                             var startTime = Date.parse(item.start_time);
                             var endTime = Date.parse(item.end_time);
                             var now = new Date().getTime();
