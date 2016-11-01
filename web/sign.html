@@ -241,13 +241,20 @@
             vue.loadData();
         }
 
-        try{
-            if( android ){android.getLocation();}
-            else{ vue.loadData() ; }
-        }catch (e){
-            vue.loadData() ;
+        function setContent(data) {
+            try {
+                if (android) {
+                    android.getLocation();
+                }
+                else {
+                    vue.loadData();
+                }
+            } catch (e) {
+                vue.loadData();
+            }
         }
 
+        if( getUrlParam("test"))vue.loadData();
         //vue.loadData();
     </script>
 </body>
