@@ -52,7 +52,7 @@
                         <div class="election" v-bind:class="{ 'right' : $index % 2 != 0  }">
                             <img src="{{ item.url }}" v-show="item.showImg" @click="showItem( item )">
                             <div>
-                                <div style="width:120px;overflow2:hidden;display:inline-block;">{{ item.text }}</div>
+                                <div style="word-wrap: break-word;width:120px;overflow2:hidden;display:inline-block;">{{ item.text }}</div>
                                  <input type="checkbox" @click="checkItem( item ,$event )" value="{{ item.id }}" id="{{ 'item_'+item.id }}" v-model2="checked"  lazy>
                             </div>
                         </div>

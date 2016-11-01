@@ -48,9 +48,9 @@
                         <div class="election" v-bind:class="{ 'right' : $index % 2 != 0  }">
                             <img src="{{ item.url }}"  v-show="item.showImg" @click="showItem( item )">
                             <div>
-                                <span class="rs"><img class='icon'src="/static/imgs/good.png"> {{ item.count }} 票</span>
+                                <span class="rs"><img class='icon'src="/static/imgs/good.png"> {{ item.count + '票' }} </span>
 
-                                <div style="width:100px;height2:38px;overflow2:hidden;display2:inline-block;">
+                                <div style="word-wrap: break-word;width:100px;height2:38px;overflow2:hidden;display2:inline-block;">
                                     {{ item.text }}
                                 </div>
 
