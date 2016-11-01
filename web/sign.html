@@ -242,22 +242,19 @@
         }
 
         function setContent(data) {
-            try {
-                if (android) {
-                    android.getLocation();
-                }
-                else {
-                    vue.loadData();
-                }
-            } catch (e) {
+            init();
+        }
+
+        function init(){
+            if(getUrlParam("test")){
                 vue.loadData();
+            }
+            if (android) {
+                android.getLocation();
             }
         }
 
-        if (android) {
-            android.getLocation();
-        }
-        if( getUrlParam("test"))vue.loadData();
+       init();
         //vue.loadData();
     </script>
 </body>
