@@ -149,9 +149,9 @@
                     //alert( JSON.stringify(response.data ) );
                 },
                 loadDataError:function( response){
-                    console.log(response);
-                    alert('请求失败，请重试');
-                    if( android ) android.toast('请求失败，请重试');
+                    //console.log(response);
+                    Site.alert('请求失败，请重试');
+                    //if( android ) android.toast('请求失败，请重试');
                 },
                 checkSign:function ( item ) {//检查投票状态
                     var url = "/v1/mobile/vote/" + item.id + "/status?user_id="+ getUrlParam('userId') ;
@@ -186,8 +186,8 @@
                         }else{
                             var msg =  rsp.data.code== -21 ?  "签到还没开始":"请求失败，错误码"+rsp.data.code;
 
-                            alert( msg );
-                            if(android ) android.toast( msg );
+                            Site.alert( rsp.data.code +" - "+ msg );
+                            //if(android ) android.toast( msg );
 			}
                     }
                     Site.get( url, statusCallback , this.loadDataError );
@@ -195,16 +195,16 @@
                 doCheck:function ( item , checkId) {//进行签到
                     var checkCallback = function(rsp){
                         if( rsp.data.code == 0 ){
-                            alert('签到成功');
-                            if(android ) android.toast('签到成功');
+                            Site.alert('签到成功');
+                            //if(android ) android.toast('签到成功');
                             vue.checkSign( item );
                         }else{//-21 -22 -23
                             var msg =  rsp.data.code== -21 ? "已经签到" : "签到还没开始";
                             if(rsp.data.code == -23) msg = "签到失败，超过距离";
                             if(rsp.data.code == -1) msg = "参数错误" + rsp.data.msg;
 
-                            alert( msg );
-                            if(android ) android.toast( rsp.data.code +"-"+msg );
+                            Site.alert( rsp.data.code +" - " +msg );
+                            //if(android ) android.toast( rsp.data.code +"-"+msg );
                         }
                         //vue.goVote(item);
                     }
@@ -218,8 +218,8 @@
                     Site.goto( 'result.html?id=' + item.id +"&type=" + item.type );
                 },
                 tipsNotBegin:function(){
-                    alert('您已签到成功,投票活动尚未开始');
-                    if(android ) android.toast('您已签到成功,投票活动尚未开始');
+                    Site.alert('您已签到成功,投票活动尚未开始');
+                    //if(android ) android.toast('您已签到成功,投票活动尚未开始');
                 },
                 refresh:function(){
                     //this.$els.refresh.rotate(90);

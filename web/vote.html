@@ -31,7 +31,7 @@
                 <div class="items">
                     <template v-for="item in items">
                         <div class="ul " v-bind:class="{ 'ul2' : $index % 2 != 0  }">
-                            <input type="checkbox" @click="checkItem( item  )" value="{{ item.id }}" id="{{ 'item_'+item.id }}" v-model="checked" lazy>{{ item.text }}
+                            <input type="checkbox" @click="checkItem( item  )" value="{{ item.id }}" id="{{ 'item_'+item.id }}" v-model2="checked" lazy>{{ item.text }}
                         </div>
                     </template>
 
@@ -53,7 +53,7 @@
                             <img src="{{ item.url }}" v-show="item.showImg" @click="showItem( item )">
                             <div>
                                 <div style="width:120px;overflow2:hidden;display:inline-block;">{{ item.text }}</div>
-                                 <input type="checkbox" @click="checkItem( item )" value="{{ item.id }}" id="{{ 'item_'+item.id }}" v-model="checked"  lazy>
+                                 <input type="checkbox" @click="checkItem( item ,$event )" value="{{ item.id }}" id="{{ 'item_'+item.id }}" v-model2="checked"  lazy>
                             </div>
                         </div>
                     </template>
@@ -107,7 +107,7 @@
             },
             methods:{
                 /*页面操作函数*/
-                checkItem:function ( item  ) {  //点中某个选项
+                checkItem:function ( item  ,event ) {  //点中某个选项
                     var count = 0 ;
                     for( var i = 0 ; i < this.items.length ; i++){
                         var ele = this.items[i];
@@ -116,7 +116,7 @@
                         }
                     }
                     if( count > this.selectCount ) {
-                        alert('最多只能选择 ' + this.selectCount + '项 ');
+                        Site.alert('最多只能选择 ' + this.selectCount + '项 ');
                         event.preventDefault();
                     }
                 },
@@ -138,8 +138,8 @@
                 },
                 /*页面操作函数 结束*/
                 loadDataError:function( response){
-                    console.log(response);
-                    alert('请求失败，请重试');
+                    //console.log(response);
+                    Site.alert('请求失败，请重试');
                 },
                 loadData:function(){//读取页面数据
                     //this.type = getUrlParam('type') == '1' ? 'showImage' : 'noImage';
@@ -179,30 +179,40 @@
                     Site.get( url  , callback , this.loadDataError );
                 },
                 doVote:function(){//进行投票
-                    if(this.checked.length == 0 ) {
-                        alert('请选择后再提交');
-                        if( android ) android.toast('请选择后再提交');
+                    var ids = '';
+                    var count = 0;
+                    for( var i = 0 ; i < this.items.length ; i++){
+                        var ele = this.items[i];
+                        if(  document.getElementById('item_' + ele.id).checked ){
+                            ids +=  i==0?'':',' +  ele.id ;
+                            count ++;
+                        }
+                    }
+
+                    if(count == 0 ) {
+                        Site.alert('请选择后再提交');
+                        //if( android ) android.toast('请选择后再提交');
                         return ;
                     }
                     var voteCallback = function (rsp) {
                         if( rsp.data.code ==0 ){
                                         //alert(JSON.stringify(rsp.data));
-                                        Site.goto('result.html?id=' + getUrlParam('id')+'&type=' + getUrlParam('type') );
+                            Site.goto('result.html?id=' + getUrlParam('id')+'&type=' + getUrlParam('type') );
                         }else{
                             var msg = "请求错误：错误码"+rsp.data.code;
                             var code = rsp.data.code;
                             if( code == -21 )msg = "不在投票时间段";
                             if( code == -22 )msg = "超过可投选项数";
                             if( code == -23 )msg = "投票已经关闭";
-                            alert( msg );
-                            if( android ) android.toast( msg );
+                            Site.alert( msg );
+                            //if( android ) android.toast( msg );
                         }
                     }
                     var url = '/v1/mobile/option';
-                    var ids = this.checked[0];//.id;
+                   /* var ids = this.checked[0];//.id;
                     for(var i =1;i< this.checked.length; i++){
                         ids += ',' + this.checked[i];//.id ;
-                    }
+                    }*/
                     ids.substring( 0 , ids.length - 1 );
                     Site.post( url , {ids : ids , user_id :getUrlParam('userId') , round_id:this.items[0].round_id } , voteCallback , this.loadDataError );
                 }

@@ -57,7 +57,7 @@
                 this.$http.post( server + '/v1/not_auth/mobile' , {pid:this.pid} , {'emulateJSON':true}).then( this.success ,this.error );
             },
             success:function(response){
-                console.log(response);
+                //console.log(response);
 
                 //alert( JSON.stringify(response.data ) );
                 vue.userId = response.data.data.id;
@@ -67,8 +67,8 @@
             error:function( response){
                 console.log(response);
 
-                alert('登录失败，请重试');
-                if( android ) android.toast('登录失败，请重试');
+                Site.alert('登录失败，请重试');
+                //if( android ) android.toast('登录失败，请重试');
             }
         }
     });
@@ -95,7 +95,8 @@
         vue.iworkToken = token ;
 
         if( !loginname || loginname.length == 0 ){
-            if( android ){android.toast("iwork登录失败，请先登录iwork");}
+            Site.alert("iwork登录失败，请先登录iwork");
+            //if( android ){android.toast("iwork登录失败，请先登录iwork");}
         }else{
             if( android ){android.getLocation();}
         }
@@ -112,15 +113,15 @@
         data = JSON.parse(data);
         vue.longitude  = data["longitude"];
         vue.latitude = data["latitude"];
-        //if( android ) android.toast('get location success ' + vue.longitude);
+        //if( android ) android.toast('get location success ' + vue.longitude +" , ");
         /*if( android )
          android.info("setContent: " + data);*/
 
         if( !vue.longitude ){
             if(!showOnce){
                 showOnce = true ;
-                alert('请先开启定位服务，再重试');
-                if( android ) android.toast('请先开启定位服务，再重试');
+                Site.alert('请先开启定位服务，再重试');
+//                if( android ) android.toast('请先开启定位服务，再重试');
             }
         }else{
             vue.login();
