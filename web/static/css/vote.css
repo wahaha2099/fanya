@@ -151,6 +151,7 @@ body {
     margin-left: 3px;
     padding: 0px 5px;
     position: relative;
+    min-width: 140px;
 }
 .text_overflow{
     white-space: nowrap;
