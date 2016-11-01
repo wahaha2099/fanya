@@ -47,7 +47,7 @@ public final class Utils {
 	}
 
 	public static String localURL(String name) {
-		return "file:///android_asset/kingjoy/sdk/" + name;
+		return "file:///android_asset/" + name;
 	}
 
 	public static File getLocalDataFile(Context context) {
