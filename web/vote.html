@@ -188,7 +188,7 @@
                     for( var i = 0 ; i < this.items.length ; i++){
                         var ele = this.items[i];
                         if(  document.getElementById('item_' + ele.id).checked ){
-                            ids +=  (i==0?'':',') +  ele.id ;
+                            ids +=  (count==0?'':',') +  ele.id ;
                             count ++;
                         }
                     }
