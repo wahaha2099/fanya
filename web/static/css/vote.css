@@ -226,6 +226,7 @@ body {
     top:5px;
     right:5px;
     position: absolute;
+    z-index:5;
 }
 
 .alert .center{
