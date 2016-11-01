@@ -66,7 +66,9 @@
             <div class="bg"></div>
 
             <div class="center">
-                <span class="close" @click="closeItem"></span>
+                <div @click="closeItem" style="width: 100px;height:100px ;top: 0px;  right: 0px;position: absolute;">
+                    <span class="close" ></span>
+                </div>
                 <div class="img" ><img src="{{ detail.refer_user.head_image }}"/>
                 </div>
 
