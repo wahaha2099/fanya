@@ -190,7 +190,7 @@
 
                             Site.alert( rsp.data.code +" - "+ msg );
                             //if(android ) android.toast( msg );
-			}
+			            }
                     }
                     Site.get( url, statusCallback , this.loadDataError );
                 },
@@ -221,6 +221,7 @@
                 },
                 tipsNotBegin:function(){
                     Site.alert('您已签到成功,投票活动尚未开始');
+                    window.location.reload();
                     //if(android ) android.toast('您已签到成功,投票活动尚未开始');
                 },
                 refresh:function(){
