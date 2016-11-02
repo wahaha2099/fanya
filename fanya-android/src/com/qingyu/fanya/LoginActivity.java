@@ -38,18 +38,21 @@ public class LoginActivity extends WebActivity {
 		//setUrl("http://192.168.1.35/");
 		show();
 		
-		getLocation();
+		getLocation( false );
 		sdkLogin();
 	}
 	
-	public void getLocation(){
-		
+	public void getLocation(final  boolean sendToPage ){
+		Log.i("LoginActivity", "  开始获取经纬度 " );
 		LocationCallback callback = new LocationCallback(){
 			@Override
 			public void callback(String longitude, String latitude) {
 				Log.i("LoginActivity", " longitude = " + longitude );
 				LoginActivity.this.longitude = longitude;
 				LoginActivity.this.latitude = latitude;
+				if( sendToPage ){
+					sendLocationToPage();
+				}
 			}};
 		sdk.getLocation(this, callback);
 	}
@@ -139,8 +142,14 @@ public class LoginActivity extends WebActivity {
 
 			switch (method) {
 			case 1://1 获取 经纬度
-				if(activity != null)
-					activity.sendLocationToPage();
+				if(activity != null){
+					if( activity.longitude == null || activity.longitude.length() == 0 ){
+						Toast.makeText(activity, "请开启定位服务后重试", Toast.LENGTH_SHORT).show();
+						activity.getLocation( true );
+					}else{
+						activity.sendLocationToPage();
+					}
+				}
 				break;
 			case 3://2发送消息
 				try {

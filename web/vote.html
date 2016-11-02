@@ -62,6 +62,7 @@
             </div>
         </template>
 
+
         <div class="submit">
             <div class="button" @click="doVote" ><img src="/static/imgs/click.png" width="20px">提 交</div>
             <div class="button" @click="back" ><img src="/static/imgs/back.png" width="20px">返 回</div>
@@ -69,7 +70,6 @@
     </div>
 
     <div class="alert" v-show="showDetail" style="display: none">
-        <div class="bg"></div>
 
         <div class="center">
             <div @click="closeItem" style="z-index: 5;width: 100px;height:100px ;top: 0px;  right: 0px;position: absolute;">

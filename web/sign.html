@@ -39,7 +39,8 @@
                                 <div class="address">{{ (item.address ? '地点：'+item.address:'') }}</div>
                             </div>
 
-                            <div class="action" v-on:click="checkSign( item )" v-if="item.status==1"><b>我要参加</b></div>
+                            <div class="action" v-on:click="checkSign( item )" v-if="item.status==1"><b>我要签到</b></div>
+                            <div class="action" v-on:click="checkSign( item )" v-if="item.status==3"><b>我要投票</b></div>
                             <div class="action"  v-if="item.status==0"><b>未开始</b></div>
                             <div class="action"  v-if="item.status==2"><b>已过期</b></div>
 			</div>
