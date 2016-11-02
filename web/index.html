@@ -120,7 +120,7 @@
         if( !vue.longitude ){
             if(!showOnce){
                 showOnce = true ;
-                Site.alert('请先开启定位服务，再重试');
+                Site.alert('请先开启定位服务，再重试' + vue.longitude );
 //                if( android ) android.toast('请先开启定位服务，再重试');
             }
         }else{

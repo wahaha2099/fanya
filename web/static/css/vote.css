@@ -63,6 +63,9 @@ body {
 }
 
 /*选项*/
+.content{
+    position:relative;
+}
 .select{
     width:320px;
     margin: 10px auto 20px auto;
@@ -118,7 +121,7 @@ body {
 }
 
 .submit .button{
-    width: 250px;
+    width: 200px;
     margin: 10px auto;
     background-color: #e25252;
     height:38px;
@@ -147,6 +150,14 @@ body {
     margin-top: 10px;
     margin-left: 3px;
     padding: 0px 5px;
+    position: relative;
+    min-width: 140px;
+}
+.text_overflow{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: normal;
 }
 .right{
     margin-left: 9px;
@@ -185,6 +196,7 @@ body {
     color:#e25252 ;
     font-size: 14px;
     float: right;
+    height:35px;
 }
 
 .election .icon{
@@ -212,6 +224,7 @@ body {
     top:5px;
     right:5px;
     position: absolute;
+    z-index:5;
 }
 
 .alert .center{

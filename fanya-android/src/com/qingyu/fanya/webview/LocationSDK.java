@@ -53,27 +53,30 @@ public class LocationSDK {
 		lm = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
 
 		// 判断GPS是否正常启动
-		/*
-		 * if(!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-		 * Toast.makeText(activity, "请开启GPS导航...", Toast.LENGTH_SHORT).show();
-		 * //返回开启GPS导航设置界面 Intent intent = new
-		 * Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-		 * activity.startActivityForResult(intent,0); return; }
-		 */
-
+		
+		  if(!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+			  Toast.makeText(activity, "请开启定位服务", Toast.LENGTH_SHORT).show();
+			  //返回开启GPS导航设置界面 Intent intent = new
+			  Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+			  activity.startActivityForResult(intent,0); return; 
+		  }
+		 
+		  /* 
 		if (!lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 			Toast.makeText(activity, "请开启定位服务", Toast.LENGTH_SHORT).show();
 			// 返回开启GPS导航设置界面
 			Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 			activity.startActivityForResult(intent, 0);
-		} /* */
+		} */
 
 		// 为获取地理位置信息时设置查询条件
 		String bestProvider = lm.getBestProvider(getCriteria(), true);
 		// 获取位置信息
 		// 如果不设置查询要求，getLastKnownLocation方法传人的参数为LocationManager.GPS_PROVIDER
-		// Location location= lm.getLastKnownLocation(bestProvider);
-		Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		Location location= lm.getLastKnownLocation(bestProvider);
+		//Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		
+		Log.i(TAG, " last know location " + location);
 		successCallback(location);
 		// 监听状态
 		// lm.addGpsStatusListener(listener);
@@ -86,9 +89,8 @@ public class LocationSDK {
 
 		// 1秒更新一次，或最小位移变化超过1米更新一次；
 		// 注意：此处更新准确度非常低，推荐在service里面启动一个Thread，在run中sleep(10000);然后执行handler.sendMessage(),更新位置
-		// lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1,
-		// locationListener);
-		lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, locationListener);
+		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500 , 0  , locationListener);
+		lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 500 , 0, locationListener);
 	}
 
 	// 位置监听
@@ -129,6 +131,7 @@ public class LocationSDK {
 		 * GPS开启时触发
 		 */
 		public void onProviderEnabled(String provider) {
+			Log.i(TAG, " provider enable ok  ");
 			Location location = lm.getLastKnownLocation(provider);
 			successCallback(location);
 		}
@@ -137,6 +140,8 @@ public class LocationSDK {
 		 * GPS禁用时触发
 		 */
 		public void onProviderDisabled(String provider) {
+			
+			Log.i(TAG, " provider disable  ");
 			successCallback(null);
 		}
 	};
@@ -168,6 +173,7 @@ public class LocationSDK {
 	private void successCallback(final Location location) {
 		
 		if (callback != null && location != null) {
+			Log.i(TAG, " callback success  ");
 			//if( transate == null ){
 				transate = new Thread(new Runnable(){
 					@Override
@@ -196,7 +202,11 @@ public class LocationSDK {
 					}
 				});
 				transate.start();
+				
+				onDestroy();
 			//}
+		}else{
+			Log.i(TAG, "call back null");
 		}
 		//callback.callback(location.getLongitude() + "", location.getLatitude() + "");
 		/*
