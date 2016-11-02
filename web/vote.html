@@ -7,22 +7,22 @@
     <meta name="keywords" content="泛亚">
     <meta name="description" content="泛亚">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="/static/plugins/swiper/css/swiper.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/vote.css">
+    <link rel="stylesheet" href="static/plugins/swiper/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="static/css/vote.css">
     <title>签到</title>
 </head>
 
 <body  class="{{ bodyClass }}">
 
     <div class="head">
-        <img src="/static/imgs/head.jpg" width="100%">
-        <div class="titleParent"><div class="title"><img  src="/static/imgs/gezi.jpg"/><b>{{typeTitle}}</b><img src="/static/imgs/gezi.jpg" /></div></div>
+        <img src="static/imgs/head.jpg" width="100%">
+        <div class="titleParent"><div class="title"><img  src="static/imgs/gezi.jpg"/><b>{{typeTitle}}</b><img src="static/imgs/gezi.jpg" /></div></div>
     </div>
 
     <div class="content "  >
         <template v-if="type == 'noImage'">
             <!--<div class = "tips">
-                <img src="/static/imgs/tips.png"><span class="tips-head">说明:</span>
+                <img src="static/imgs/tips.png"><span class="tips-head">说明:</span>
                 <div class="tips-info">因为12月需要组织一次党员生活会，看看大家对党员生活会的举办形式有什么意见，投票选择，没人最多选择2项</div>
             </div>-->
 
@@ -41,7 +41,7 @@
 
         <template v-else>
             <div class = "tips" v-show=" info.length > 0 ">
-                    <img src="/static/imgs/tips.png"><span class="tips-head">说明:</span>
+                    <img src="static/imgs/tips.png"><span class="tips-head">说明:</span>
                     <div class="tips-info">{{ info }}</div>
             </div>
 
@@ -64,8 +64,8 @@
 
 
         <div class="submit">
-            <div class="button" @click="doVote" ><img src="/static/imgs/click.png" width="20px">提 交</div>
-            <div class="button" @click="back" ><img src="/static/imgs/back.png" width="20px">返 回</div>
+            <div class="button" @click="doVote" ><img src="static/imgs/click.png" width="20px">提 交</div>
+            <div class="button" @click="back" ><img src="static/imgs/back.png" width="20px">返 回</div>
         </div>
     </div>
 
@@ -88,7 +88,7 @@
     </div>
 
 
-    <script type="text/javascript" src="/static/js/vue.min.js"></script>
+    <script type="text/javascript" src="static/js/vue.min.js"></script>
     <script>
 
         var vue = new Vue({

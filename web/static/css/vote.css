@@ -95,7 +95,7 @@ body {
  * checkbox
  */
 .select input[type=checkbox] {
-    background:url("/static/imgs/unchecked.jpg") no-repeat;
+    background:url("../../static/imgs/unchecked.jpg") no-repeat;
     -webkit-appearance: none;
     border: 0;
     background-size: 100%;
@@ -105,7 +105,7 @@ body {
     vertical-align: middle;
 }
 .select input[type=checkbox]:checked {
-    background:url("/static/imgs/checked.jpg") no-repeat;
+    background:url("../../static/imgs/checked.jpg") no-repeat;
     background-size: 100%;
     width: 20px;
     height: 20px;
@@ -176,7 +176,7 @@ body {
     line-height: 38px;
 }
 .election input[type=checkbox] {
-    background:url("/static/imgs/unchecked2.jpg") no-repeat;
+    background:url("../../static/imgs/unchecked2.jpg") no-repeat;
     -webkit-appearance: none;
     border: 0;
     background-size: 100%;
@@ -186,7 +186,7 @@ body {
     vertical-align: middle;
 }
 .election input[type=checkbox]:checked {
-    background:url("/static/imgs/checked.jpg") no-repeat;
+    background:url("../../static/imgs/checked.jpg") no-repeat;
     background-size: 100%;
     width: 20px;
     height: 20px;
@@ -217,7 +217,7 @@ body {
 }
 
 .alert .close{
-    background-image: url("/static/imgs/close.png");
+    background-image: url("../../static/imgs/close.png");
     width: 21px;
     height:21px;
     background-size: 100%;

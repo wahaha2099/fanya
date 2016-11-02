@@ -7,23 +7,23 @@
     <meta name="keywords" content="泛亚">
     <meta name="description" content="泛亚">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="/static/plugins/swiper/css/swiper.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/vote.css">
+    <link rel="stylesheet" href="static/plugins/swiper/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="static/css/vote.css">
     <title>签到</title>
 </head>
 
 <body id="body">
 
     <div class="head">
-        <img src="/static/imgs/head.jpg" width="100%">
-        <div class="titleParent"><div class="title"><img  src="/static/imgs/gezi.jpg"/><b>{{typeTitle + '票数'}}</b><img src="/static/imgs/gezi.jpg" /></div></div>
+        <img src="static/imgs/head.jpg" width="100%">
+        <div class="titleParent"><div class="title"><img  src="static/imgs/gezi.jpg"/><b>{{typeTitle + '票数'}}</b><img src="static/imgs/gezi.jpg" /></div></div>
     </div>
 
     <div class="content">
 
         <template v-if="type == 'noImage'">
             <!--<div class = "tips">
-                <img src="/static/imgs/tips.png"><span class="tips-head">说明:</span>
+                <img src="static/imgs/tips.png"><span class="tips-head">说明:</span>
                 <div class="tips-info">因为12月需要组织一次党员生活会，看看大家对党员生活会的举办形式有什么意见，投票选择，没人最多选择2项</div>
             </div>-->
 
@@ -32,7 +32,7 @@
                     <template v-for="item in items">
                         <div class="ul  " v-bind:class="{ 'ul2' : $index % 2 != 0  }">
                             <div class="election" style="width: 90%;padding: 0 10px;">
-                                <div>{{ item.text }} <span class="rs"><img class='icon'src="/static/imgs/good.png"> {{ item.count }} 票</span></div>
+                                <div>{{ item.text }} <span class="rs"><img class='icon'src="static/imgs/good.png"> {{ item.count }} 票</span></div>
                             </div>
                         </div>
                     </template>
@@ -48,7 +48,7 @@
                         <div class="election" v-bind:class="{ 'right' : $index % 2 != 0  }">
                             <img src="{{ item.url }}"  v-show="item.showImg" @click="showItem( item )">
                             <div>
-                                <span class="rs"><img class='icon'src="/static/imgs/good.png"> {{ item.count + '票' }} </span>
+                                <span class="rs"><img class='icon'src="static/imgs/good.png"> {{ item.count + '票' }} </span>
 
                                 <div style="word-wrap: break-word;width:100px;height2:38px;overflow2:hidden;display2:inline-block;">
                                     {{ item.text }}
@@ -69,7 +69,7 @@
 
 
         <div class="submit">
-            <div class="button" @click="submit" ><img src="/static/imgs/back.png" width="20px">返 回</div>
+            <div class="button" @click="submit" ><img src="static/imgs/back.png" width="20px">返 回</div>
         </div>
 
         <div @click='refresh' style="z-index:5;width: 32.0px; height: 32.0px; margin: 0 auto;bottom:5px;right: 5px;position: absolute;">
@@ -104,7 +104,7 @@
     </div>
 
 
-    <script type="text/javascript" src="/static/js/vue.min.js"></script>
+    <script type="text/javascript" src="static/js/vue.min.js"></script>
     <script>
 
         var vue = new Vue({

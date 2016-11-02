@@ -7,8 +7,8 @@
     <meta name="keywords" content="泛亚">
     <meta name="description" content="泛亚">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="/static/plugins/swiper/css/swiper.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/index.css">
+    <link rel="stylesheet" href="static/plugins/swiper/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="static/css/index.css">
     <title>签到</title>
 </head>
 
@@ -16,8 +16,8 @@
 
     <div class="head">
 
-        <img src="/static/imgs/head.jpg" width="100%">
-        <div class="title"><img  src="/static/imgs/gezi.jpg"/><b>选举投票</b><img src="/static/imgs/gezi.jpg" /></div>
+        <img src="static/imgs/head.jpg" width="100%">
+        <div class="title"><img  src="static/imgs/gezi.jpg"/><b>选举投票</b><img src="static/imgs/gezi.jpg" /></div>
     </div>
 
     <div class="content">
@@ -30,8 +30,8 @@
                     <div class="swiper-slide" >
                         <div class="item" style2="background-image: url({{item.background}})" >
 				<div style="width:100%;height:300px;background-size:100%;background-image: url( {{item.background}} )" >
-                            <img src="/static/imgs/type.png" v-if="item.type==2" />
-                            <img src="/static/imgs/type2.png" v-if="item.type==1" />
+                            <img src="static/imgs/type.png" v-if="item.type==2" />
+                            <img src="static/imgs/type2.png" v-if="item.type==1" />
 
                             <div class="info">
                                 <div class="topic"><b>{{ item.title }}</b></div>
@@ -65,8 +65,8 @@
 
     </div>
 
-    <script type="text/javascript" src="/static/plugins/swiper/js/swiper.min.js"></script>
-    <script type="text/javascript" src="/static/js/vue.min.js"></script>
+    <script type="text/javascript" src="static/plugins/swiper/js/swiper.min.js"></script>
+    <script type="text/javascript" src="static/js/vue.min.js"></script>
     <script>
         //server = 'http://localhost/';
         var vue = new Vue({
@@ -81,7 +81,7 @@
                         "id": -1,
                         "title": "领导人选举",
                         "content": "选举党最新领导人",
-                        "background": "/static/imgs/toupiao-bg.jpg",  //背景图
+                        "background": "static/imgs/toupiao-bg.jpg",  //背景图
                         "admin_id": 1,
                         "status": 1,
                         "type": 1,  //1：选举 2：投票
@@ -129,7 +129,7 @@
                             var item = response.data.data[i];
 
                             item.background = Site.imgUrl( item.background );
-                            if( !item.background) item.background = '/static/imgs/toupiao-bg.jpg';
+                            if( !item.background) item.background = 'static/imgs/toupiao-bg.jpg';
                             var startTime = Date.parse(item.start_time);
                             var endTime = Date.parse(item.end_time);
                             var now = new Date().getTime();
