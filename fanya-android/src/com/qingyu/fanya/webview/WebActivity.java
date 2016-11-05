@@ -10,6 +10,8 @@ import com.qingyu.fanya.WebDialog;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -54,6 +56,8 @@ public class WebActivity extends Activity{
 		window.setBackgroundDrawable(new ColorDrawable(0));
 
 		this.webview = new WebView(this.getApplicationContext());
+		
+		webview.getSettings().setDefaultFontSize(20);
 		WebSettings settings = this.webview.getSettings();
 		settings.setJavaScriptEnabled(true);
 		settings.setDefaultTextEncodingName("utf-8");
@@ -94,6 +98,18 @@ public class WebActivity extends Activity{
 		params.dimAmount = 0.2F;
 		window.setAttributes(params);
 	}
+	
+	
+	@Override
+	public Resources getResources() {
+		// TODO Auto-generated method stub
+		Resources res =  super.getResources();
+		Configuration config = new Configuration();
+		config.setToDefaults();
+		res.updateConfiguration(config , res.getDisplayMetrics());
+		return res;
+	}
+	
 	
 	public JSObject getJSObject() {
 		return this.jsobject;
@@ -141,6 +157,7 @@ public class WebActivity extends Activity{
 			};
 		}
 
+		
 		@SuppressLint({ "JavascriptInterface" })
 		@JavascriptInterface  
 		public void info(String msg) {
