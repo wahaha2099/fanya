@@ -97,17 +97,30 @@ body {
     width: 62px;
 
 }
-
+/*
 .info{
     background:rgba(0,0,0,0.3);
     position: absolute;
-    bottom:87px;/**/
-    /*padding-left: 15px;*/
+    bottom:87px;
     font-size: 14px;
     text-align: left;
     height: 65px;
     width: 100%;
+}*/
+
+.info {
+    background: rgba(0,0,0,0.3);
+    position: absolute;
+    /* bottom: 87px;
+    padding-left: 15px; */
+    font-size: 14px;
+    text-align: left;
+    /* height: 65px; */
+    width: 100%;
+    bottom: 97px;
+    padding: 5px 0;
 }
+
 .topic{
     line-height: 28px;
     font-size: 17px;
