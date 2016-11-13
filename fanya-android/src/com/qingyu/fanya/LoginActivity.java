@@ -35,7 +35,10 @@ public class LoginActivity extends WebActivity {
 		super.onCreate(savedInstanceState);
 		
 		//setUrl("http://120.26.55.126/");
+		//qa
 		setUrl("fanya/index.html");
+		//qa-pid
+//		setUrl("fanya/pid.html");
 		//setUrl("http://192.168.1.35/");
 		show();
 		
