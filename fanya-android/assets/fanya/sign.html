@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=Edge, chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="keywords" content="泛亚">
+    <meta name="description" content="泛亚">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="static/plugins/swiper/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="static/css/index.css">
+    <title>签到</title>
+</head>
+
+<body class="body">
+
+    <div class="head">
+
+        <img src="static/imgs/head.jpg" width="100%">
+        <div class="title"><img  src="static/imgs/gezi.jpg"/><b>选举投票</b><img src="static/imgs/gezi.jpg" /></div>
+    </div>
+
+    <div class="content">
+        <!-- Slider main container -->
+        <div class="swiper-container">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+                <!-- Slides -->
+                <template v-for="item in items">
+                    <div class="swiper-slide" >
+                        <div class="item" style2="background-image: url({{item.background}})" >
+				<div style="width:100%;height:300px;background-size:100%;background-image: url( {{item.background}} )" >
+                            <img src="static/imgs/type.png" v-if="item.type==2" />
+                            <img src="static/imgs/type2.png" v-if="item.type==1" />
+
+                            <div class="info">
+                                <div class="topic"><b>{{ item.title }}</b></div>
+                                <div class="time">时间：{{ item.time }}</div>
+                                <div class="address">{{ (item.address ? '地点：'+item.address:'') }}</div>
+                            </div>
+
+                            <div class="action" v-on:click="checkSign( item )" v-if="item.status==1"><b>我要签到</b></div>
+                            <div class="action" v-on:click="checkSign( item )" v-if="item.status==3"><b>我要投票</b></div>
+                            <div class="action"  v-if="item.status==0"><b>未开始</b></div>
+                            <div class="action"  v-if="item.status==2"><b>已过期</b></div>
+			</div>
+                        </div>
+                    </div>
+                </template>
+
+            </div>
+            <!-- If we need pagination
+            <div class="swiper-pagination"></div>-->
+        </div>
+
+        <div  @click="refresh" v-el:refresh style="z-index:5;width: 32.0px; height: 32.0px; margin: 0 auto;bottom:10px;right: 5px;position: absolute;">
+            <svg class="{{svgClass}}" style="width: 32.0px; height: 32.0px; margin: 0 auto;">
+                <g class="transform-group">
+                    <g transform="translate(0, 28.0) scale(1, -1) scale(0.03125, 0.03125)">
+                        <path d="M815.296 114.528 960 326.304l-102.336 0c-13.632 207.232-185.728 371.392-396.416 371.392C241.6 697.696 64 519.648 64 299.936c0-219.52 178.048-397.632 397.696-397.632 98.496 0 188.416 36.032 257.92 95.424l-53.184 68.48C611.712 18.336 540.16-11.04 461.696-11.04c-171.84 0-311.104 139.328-311.104 310.976 0 171.904 139.328 311.168 311.104 311.168 162.88 0 295.936-125.376 309.312-284.8l-100.416 0L815.296 114.528 815.296 114.528z" fill="#737383"></path>
+                    </g>
+                </g>
+            </svg>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="static/plugins/swiper/js/swiper.min.js"></script>
+    <script type="text/javascript" src="static/js/vue.min.js"></script>
+    <script>
+        //server = 'http://localhost/';
+        var vue = new Vue({
+            el: '.body',
+            data: {
+                longitude:'',
+                latitude:'',
+                svgClass:'',
+                parentMessage: 'Parent',
+                items: [
+                    /*{
+                        "id": -1,
+                        "title": "领导人选举",
+                        "content": "选举党最新领导人",
+                        "background": "static/imgs/toupiao-bg.jpg",  //背景图
+                        "admin_id": 1,
+                        "status": 1,
+                        "type": 1,  //1：选举 2：投票
+                        "start_time": "2016-10-15T16:07:49+08:00",
+                        "end_time": "2017-01-01T11:11:11+08:00",
+                        "branch_id": 1,
+                        "create_time": "2016-10-15T15:48:26+08:00"
+                    }*/
+                ]
+            },
+            ready:function () {
+                //this.loadData();
+            },
+            methods:{
+                initSwiper:function(event){ //初始化轮播图
+                    var swiper = new Swiper('.swiper-container', {
+                        effect: 'coverflow',
+                        grabCursor: true,
+                         //pagination: this.items.length <= 1 ? '' : '.swiper-pagination',
+                         //paginationClickable: true,
+                         spaceBetween: 10,
+                         slidesPerView: 'auto',
+                         centeredSlides: true,
+                        coverflow: {
+                            rotate: 50,
+                            stretch: 0,
+                            depth: 100,
+                            modifier: 1,
+                            slideShadows : true
+                        }
+                     });
+//                    console.log(' calling swiper ' + this.items.length );
+                },
+                loadData:function(){//获取投票数据
+                    Site.get( '/v1/mobile/vote?user_id='+ getUrlParam('userId') ,this.loadDataSuccess , this.loadDataError );
+
+
+//                    this.$http.get( server + '/v1/mobile/vote?user_id='+ getUrlParam('userId') , {'emulateJSON':true,'headers':{'token':getUrlParam('userToken')}}).then( this.loadDataSuccess ,this.loadDataError );
+                },
+                loadDataSuccess:function(response){
+                    console.log(response.data);
+
+                    if( response.data.code ==0 ){
+                        for(var i = 0 ; i < response.data.data.length ; i++){
+                            var item = response.data.data[i];
+
+                            item.background = Site.imgUrl( item.background );
+                            if( !item.background) item.background = 'static/imgs/toupiao-bg.jpg';
+                            var startTime = Date.parse(item.start_time);
+                            var endTime = Date.parse(item.end_time);
+                            var now = new Date().getTime();
+                            if( now < startTime || now > endTime ){
+                                item.status = 2;
+                            }
+
+                            item.time = item.start_time.substring(0,"2016-10-15".length) + '至' + item.end_time.substring(0,"2016-10-15".length) ;
+                            this.items.push( item );
+                        }
+                    }
+
+                    //console.log( JSON.stringify( this.items ) );
+
+                    this.$nextTick(function () {
+                        // `this` 绑定到当前实例
+                        vue.initSwiper();
+                    })
+                    //alert( JSON.stringify(response.data ) );
+                },
+                loadDataError:function( response){
+                    //console.log(response);
+                    Site.alert('请求失败，请重试');
+                    //if( android ) android.toast('请求失败，请重试');
+                },
+                checkSign:function ( item ) {//检查投票状态
+                    var url = "/v1/mobile/vote/" + item.id + "/status?user_id="+ getUrlParam('userId') ;
+
+                    var statusCallback = function( rsp ){
+                        if( rsp.data.code == 0 ){
+                            // 1表示未签到、2表示签到成功、3表示可以投票、4投票成功
+                            var status = rsp.data.data;
+
+                            if( status == 1 ) {
+                                vue.getCheckDetail(item);
+                            }else if ( status == 2){
+                                vue.tipsNotBegin();
+                            }else if ( status == 3){
+                                vue.goVote( item );
+                            }else if ( status == 4 ){
+                                vue.goVoteResult( item );
+                            }else if ( status == 5 ){
+                                vue.goVoteResult( item );
+                            }
+                        }
+                    }
+                    Site.get( url, statusCallback , this.loadDataError );
+                },
+                getCheckDetail:function( item ){  //获取签到详情
+                    var url = "/v1/mobile/vote/" + item.id + "/check";
+                    var statusCallback = function( rsp ){
+                        if( rsp.data.code == 0 ){
+                            // 1表示未签到、2表示签到成功、3表示可以投票、4投票成功
+                            var checkId = rsp.data.data.id;
+                            vue.doCheck( item , checkId );
+                        }else{
+                            var msg =  rsp.data.code== -21 ?  "签到还没开始":"请求失败，错误码"+rsp.data.code;
+
+                            Site.alert( rsp.data.code +" - "+ msg );
+                            //if(android ) android.toast( msg );
+			            }
+                    }
+                    Site.get( url, statusCallback , this.loadDataError );
+                },
+                doCheck:function ( item , checkId) {//进行签到
+                    var checkCallback = function(rsp){
+                        if( rsp.data.code == 0 ){
+                            Site.alert('签到成功');
+                            //if(android ) android.toast('签到成功');
+                            vue.checkSign( item );
+                        }else{//-21 -22 -23
+                            var msg =  rsp.data.code== -21 ? "已经签到" : "签到还没开始";
+                            if(rsp.data.code == -23) msg = "签到失败，超过距离";
+                            if(rsp.data.code == -1) msg = "参数错误" + rsp.data.msg;
+
+                            Site.alert( rsp.data.code +" - " +msg );
+                            //if(android ) android.toast( rsp.data.code +"-"+msg );
+                        }
+                        //vue.goVote(item);
+                    }
+                    var checkUrl = "/v1/mobile/check/" + checkId ;
+                    Site.post( checkUrl , {user_id:getUrlParam('userId') , latitude:vue.latitude , longitude:vue.longitude } , checkCallback , this.loadDataError)
+                },
+                goVote:function( item ){//前往投票页面
+                    Site.goto( 'vote.html?id=' + item.id +"&type=" + item.type );
+                },
+                goVoteResult:function( item ){//前往投票结果页面
+                    Site.goto( 'result.html?id=' + item.id +"&type=" + item.type );
+                },
+                tipsNotBegin:function(){
+                    Site.alert('您已签到成功,投票活动尚未开始');
+                    window.location.reload();
+                    //if(android ) android.toast('您已签到成功,投票活动尚未开始');
+                },
+                refresh:function(){
+                    //this.$els.refresh.rotate(90);
+                    this.svgClass = 'drTransform';
+                    window.location.reload();
+                }
+            }
+        });
+
+        //native调用
+        function setLocation(data) {
+            data = JSON.parse(data);
+            vue.longitude  = data["longitude"];
+            vue.latitude = data["latitude"];
+            //if( android ) android.toast('get location success ' + vue.longitude);
+            /*if( android )
+                android.info("setContent: " + data);*/
+
+            vue.loadData();
+        }
+
+        function setContent(data) {
+            init();
+        }
+
+        function init(){
+            if(getUrlParam("test")){
+                vue.loadData();
+            }
+            if (android) {
+                android.getLocation();
+            }
+        }
+
+       init();
+        //vue.loadData();
+    </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <style>
+
+        body {
+            background: #f5f5f5;
+            font-family: "微软雅黑","Microsoft Yahei",arial,sans-serif;
+            font-size: 14px;
+            color:#000;
+            margin: 0px auto;
+            padding: 0;
+        }
+        .content{
+            margin: auto;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body id="body">
+
+
+    <img src="static/imgs/head.jpg" width="100%">
+
+    <div class="content">
+        <p>登录中....</p>
+        <p>(如果登录失败，先登录iwork，再点击进入）</p>
+        <p>
+            <input name="pid" style="width: 150px" v-model="pid"><button @click="login" >进入</button>
+        </p>
+    </div>
+
+</body>
+
+<script type="text/javascript" src="static/js/vue.min.js"></script>
+
+<script>
+
+
+    var vue = new Vue({
+        el: '#body',
+        data: {
+            pid:'sbgyr8',
+            iworkToken : '',
+            userToken:'',
+            userId:''
+        },
+        methods:{
+            nativeLogin:function(){//调用安卓登录
+                doNativeLogin();
+            },
+            login:function () {
+                this.$http.post( server + '/v1/not_auth/mobile' , {pid:this.pid} , {'emulateJSON':true}).then( this.success ,this.error );
+            },
+            success:function(response){
+                //console.log(response);
+
+                //alert( JSON.stringify(response.data ) );
+                vue.userId = response.data.data.id;
+                vue.userToken = response.data.token ;
+                goIndex();
+            },
+            error:function( response){
+                console.log(response);
+
+                Site.alert('登录失败，请重试');
+                //if( android ) android.toast('登录失败，请重试');
+            }
+        }
+    });
+    function doNativeLogin(){
+        try{
+            if( android ){
+                showOnce = false;
+                android.nativeLogin();
+            }
+        }catch(e){
+            vue.login();   //安卓不存在，页面调用
+        }
+    }
+
+    //setContent( JSON.stringify({'loginname':'123' , 'token':123}));
+    function setContent(data) {
+
+        data = JSON.parse(data);
+
+        var token  = data["token"];
+        var loginname = data["loginname"];
+
+        vue.pid = loginname ;
+        vue.iworkToken = token ;
+
+        if( !loginname || loginname.length == 0 ){
+            Site.alert("iwork登录失败，请先登录iwork");
+            //if( android ){android.toast("iwork登录失败，请先登录iwork");}
+        }else{
+            if( android ){android.getLocation();}
+        }
+        //if( android ) android.toast('请先开启定位服务，再重试');
+    }
+
+    function goIndex( ){
+        window.location.href = 'sign.html?userId=' + vue.userId +"&userToken=" + vue.userToken +"&iworkToken="+vue.iworkToken +"&pid=" + vue.pid ;
+    }
+
+    var showOnce = false;
+    //native调用
+    function setLocation(data) {
+        data = JSON.parse(data);
+        vue.longitude  = data["longitude"];
+        vue.latitude = data["latitude"];
+        //if( android ) android.toast('get location success ' + vue.longitude +" , ");
+        /*if( android )
+         android.info("setContent: " + data);*/
+
+        if( !vue.longitude ){
+            if(!showOnce){
+                showOnce = true ;
+                Site.alert('请先开启定位服务，再重试' + vue.longitude );
+//                if( android ) android.toast('请先开启定位服务，再重试');
+            }
+        }else{
+            //vue.login();
+        }
+    }
+
+
+</script>
+</html>

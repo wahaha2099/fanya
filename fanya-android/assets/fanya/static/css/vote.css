@@ -1,0 +1,284 @@
+
+body {
+    background: #f5f5f5;
+    font-family: "微软雅黑","Microsoft Yahei",arial,sans-serif;
+    font-size: 14px;
+    color:#000;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+}
+.drTransform {
+    transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    /* IE 9 */
+    -moz-transform: rotate(360deg);
+    /* Firefox */
+    -webkit-transform: rotate(360deg);
+    /* Safari 鍜� Chrome */
+    -o-transform: rotate(360deg);
+    transition-duration: 0.5s;
+}
+/* 头部 */
+.titleParent{
+    width: 100%;
+    text-align: center;
+}
+.title{
+    font-size:20px;
+    display:inline-block;
+}
+
+
+.title img{
+    width: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+/* 头部 end */
+
+
+.tips{
+    margin: 10px auto;
+    background-color: #e8e8e8;
+    width:300px;
+    padding: 10px;
+}
+
+.tips-head {
+    color:#e25252 ;
+    display: inline-block;
+    line-height:25px;
+}
+
+.tips img{
+    width: 15px;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+.tips-info{
+    color: #666666;
+    font-size: 12px;
+}
+
+/*选项*/
+.content{
+    position:relative;
+}
+.select{
+    width:320px;
+    margin: 10px auto 20px auto;
+}
+
+.select .items{
+    margin-top: 5px;
+
+}
+
+.select span , .election-div span  {
+    color:#e25252 ;
+    font-size: 10px;
+}
+
+.select .ul{
+    min-height:40px;
+    word-break: break-all;
+    background-color: #e8e8e8;
+    color:#333333;
+}
+
+.select .ul2 {
+    background-color: #efefef;
+}
+/**
+ * checkbox
+ */
+.select input[type=checkbox] {
+    background:url("../../static/imgs/unchecked.jpg") no-repeat;
+    -webkit-appearance: none;
+    border: 0;
+    background-size: 100%;
+    width: 20px;
+    height: 20px;
+    margin: 10px;
+    vertical-align: middle;
+}
+.select input[type=checkbox]:checked {
+    background:url("../../static/imgs/checked.jpg") no-repeat;
+    background-size: 100%;
+    width: 20px;
+    height: 20px;
+}
+/*选项 end */
+
+/*提交按钮*/
+.submit{
+    width: 100%;
+    margin: 10px auto;
+    padding-top: 10px;
+    clear: both;
+}
+
+.submit .button{
+    width: 200px;
+    margin: 10px auto;
+    background-color: #e25252;
+    height:38px;
+    color: #ffffff;
+    text-align: center;
+    line-height: 38px;
+    font-size: 20px;
+    border-radius: 5px;
+}
+
+.submit img{
+    vertical-align: middle;
+    margin-right: 5px;
+}
+/*提交按钮 end*/
+
+
+/* 选举*/
+.election-div{
+    width:320px;
+    margin: 10px auto 20px auto;
+}
+.election{
+    float: left;
+    border: 1px solid #d5d1d1;
+    margin-top: 10px;
+    margin-left: 3px;
+    padding: 0px 5px;
+    position: relative;
+    min-width: 140px;
+}
+.text_overflow{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: normal;
+}
+.right{
+    margin-left: 9px;
+}
+.election img {
+    margin-top: 15px;
+    width: 140px;
+    height:140px;
+    display: block;
+}
+.election input{
+    float: right;
+}
+.election div{
+    width: 100%;
+    line-height: 38px;
+}
+.election input[type=checkbox] {
+    background:url("../../static/imgs/unchecked2.jpg") no-repeat;
+    -webkit-appearance: none;
+    border: 0;
+    background-size: 100%;
+    width: 20px;
+    height: 20px;
+    margin: 10px auto ;
+    vertical-align: middle;
+}
+.election input[type=checkbox]:checked {
+    background:url("../../static/imgs/checked.jpg") no-repeat;
+    background-size: 100%;
+    width: 20px;
+    height: 20px;
+}
+
+.election .rs{
+    color:#e25252 ;
+    font-size: 14px;
+    float: right;
+    height:35px;
+}
+
+.election .icon{
+    width: 10px;
+    height: 10px;
+    display: inline;
+}
+/* 选举 end */
+
+/* alert 弹窗 */
+.alert{
+    position: fixed;
+    top:0px;
+    width: 100%;
+    height:100%;
+    background-color: rgba(0,0,0,0.5);
+    overflow-y: auto;
+}
+
+.alert .close{
+    background-image: url("../../static/imgs/close.png");
+    width: 21px;
+    height:21px;
+    background-size: 100%;
+    top:5px;
+    right:5px;
+    position: absolute;
+    z-index:5;
+}
+
+.alert .center{
+    width: 300px;
+    /* height: 400px;*/
+    display: inline-block;
+    margin: 0 auto 50px auto;
+    horiz-align: center;
+    position: absolute;
+    left:0; right:0; top:100px; /*bottom:0;*/
+    background-color: white;
+}
+
+.alert .center .info b{
+    font-size: 15px;
+}
+
+
+.alert .center .info {
+    padding: 10px;
+    color: #333333;
+    font-size: 13px;
+}
+/*
+.alert .img{
+    width: 300px;
+    height: 250px;
+    overflow: hidden;
+    margin: auto;
+}
+*/
+.alert img{
+    width: 300px;
+    height: 300px;
+}
+.alert hr{
+    background-color: #999999;
+}
+
+
+/* alert 弹窗 */
+
+.html-body-overflow
+{
+    overflow-x:hidden;
+    overflow-y:hidden;
+    position: fixed;
+    overflow: hidden;
+}
+
+.html-body-auto
+{
+    overflow-x:auto;
+    overflow-y:auto;
+    position: relative;
+    overflow: auto;
+}

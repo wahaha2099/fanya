@@ -1,10 +1,11 @@
-https://bitbucket.org/zhanxuejian2015/qy-vote/wiki/Home
+﻿https://bitbucket.org/zhanxuejian2015/qy-vote/wiki/Home
 
 账号是sbgyr8，密码是Pass1234
 
 
 iwork的包名com.saicgmuat.mobileark
 
+测试包名：com.fiberhome.arksdkdemo
 应用包名：com.kaasworld.fanya.vote
 
 邮件发给zfdcyy@163.com
